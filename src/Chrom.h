@@ -20,7 +20,7 @@ public:
 	Chrom();
 	Chrom(const vector<Segment> &);
 	Chrom(const Chrom &);
-	float getLength();
+	float getLength() const;
 	int getNumSegments() const;
 	void addSegment(Segment &);
 	void smooth();

@@ -25,7 +25,7 @@ ChromPair::ChromPair(const ChromPair & chromPair) {
 	chrom2 = chromPair.chrom2;
 }
 
-Chrom ChromPair::getChrom(int index = 1) {
+Chrom ChromPair::getChrom(int index) {
 	if (index == 1) {
 		return chrom1;
 	} else {
@@ -37,8 +37,9 @@ float ChromPair::waitTime() {
 	float lambda = chrom1.getLength();
 	srand(time(NULL));
 	float prob = (float) (rand()) / RAND_MAX;
-	float time = -log(1 - prob) / lambda;
-	return time;
+	float wTime = -log(1 - prob) / lambda;
+	//cout<<"prob:"<<prob<<";wTime"<<wTime<<endl;
+	return wTime;
 }
 
 vector<float> ChromPair::breakPoints() {
@@ -47,7 +48,12 @@ vector<float> ChromPair::breakPoints() {
 	bps.push_back(0.0);
 	while (bps[bps.size() - 1] < length)
 		bps.push_back(bps[bps.size() - 1] + waitTime());
-	bps[bps.size()] = length;
+	bps.pop_back();
+	bps.push_back(length);
+//	for (size_t i = 0; i < bps.size(); ++i) {
+//		cout << bps[i] << "-";
+//	}
+//	cout << endl;
 	return bps;
 }
 

@@ -21,7 +21,7 @@ Chrom::Chrom(const Chrom & chrom) {
 	segments = chrom.segments;
 }
 
-float Chrom::getLength() {
+float Chrom::getLength() const {
 	return segments.back().getEnd();
 }
 
