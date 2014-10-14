@@ -19,13 +19,13 @@ private:
 	vector<Chrom> haplos;
 public:
 	Population();
-	Population(int, int,const vector<Chrom> &);
+	Population(int, int, const vector<Chrom> &);
 	Population(const Population &);
 	int getLabel() const;
 	int getNe();
 	vector<Chrom> getHaplos();
 	void setLabel(int);
-	void setNe(int);
+	void updateNe();
 	void addHaplo(Chrom &);
 	Population evolve(int);
 	vector<Chrom> sample(int);

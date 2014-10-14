@@ -44,7 +44,7 @@ vector<string> readHaplo(char *filename) {
 	if (in.is_open()) {
 		string line;
 		//skip first 6 lines
-		for (unsigned int i = 0; i < 6; i++) {
+		for (int i = 0; i < 6; ++i) {
 			getline(in, line);
 		}
 		while (getline(in, line))
@@ -63,12 +63,12 @@ vector<float> readPos(char *filename) {
 	if (in.is_open()) {
 		string line;
 		//skip first 5 lines
-		for (unsigned int i = 0; i < 5; i++) {
+		for (int i = 0; i < 5; ++i) {
 			getline(in, line);
 		}
 		getline(in, line);
 		vector<string> tokens = split(line, " ");
-		for (unsigned int i = 1; i < tokens.size() - 1; i++) {
+		for (int i = 1; i < tokens.size() - 1; ++i) {
 			pos.push_back((float) atof(tokens[i].c_str()));
 		}
 	} else {
@@ -82,11 +82,11 @@ vector<float> readPos(char *filename) {
 //	vector<string> haps = readHaplo("test");
 //	vector<float> pos = readPos("test");
 //	cout << "pos size " << pos.size() << endl;
-//	for (unsigned int i = 0; i < pos.size(); i++) {
+//	for (unsigned int i = 0; i < pos.size(); ++i) {
 //		cout << pos[i] << " ";
 //	}
 //	cout << endl;
-//	for (unsigned int i = 0; i < haps.size(); i++) {
+//	for (unsigned int i = 0; i < haps.size(); ++i) {
 //		cout << haps[i] << endl;
 //	}
 //}

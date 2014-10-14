@@ -65,15 +65,29 @@ Chrom::~Chrom() {
 	// TODO Auto-generated destructor stub
 }
 
+////test case
 //int main() {
 //	vector<Segment> segs;
 //	segs.push_back(Segment(0.0, 0.2, 1));
 //	segs.push_back(Segment(0.2, 0.8, 1));
+//	segs.push_back(Segment(0.8, 1.0, 2));
+//	segs.push_back(Segment(1.0, 1.25, 2));
+//	segs.push_back(Segment(1.25, 1.5, 1));
 //	Chrom chr(segs);
 //	size_t i;
-//	for (i = 0; i < segs.size(); i++) {
+//	cout << "before smooth, the num is: " << chr.getNumSegments() << endl;
+//	for (i = 0; i < chr.getNumSegments(); ++i) {
 //		Segment s = chr.getSegment(i);
-//		cout << "Seg " << i << ":" << s.getStart() << "-" << s.getEnd() << endl;
+//		cout << "Seg " << i << ":" << s.getStart() << "-" << s.getEnd()
+//				<< "; pop " << s.getLabel() << endl;
 //	}
+//	chr.smooth();
+//	cout << "after smooth, the num is: " << chr.getNumSegments() << endl;
+//	for (i = 0; i < chr.getNumSegments(); ++i) {
+//		Segment s = chr.getSegment(i);
+//		cout << "Seg " << i << ":" << s.getStart() << "-" << s.getEnd()
+//				<< "; pop " << s.getLabel() << endl;
+//	}
+//
 //}
 

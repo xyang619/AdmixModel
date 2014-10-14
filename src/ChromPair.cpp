@@ -60,7 +60,7 @@ ChromPair ChromPair::recombine() {
 		vector<Segment> ss1;
 		vector<Segment> ss2;
 		float start = bps[0];
-		for (unsigned int i = 1; i < bps.size(); i++) {
+		for (int i = 1; i < bps.size(); ++i) {
 			float end = bps[i];
 			Segment s(start, end, 1);
 			if (i % 2) {

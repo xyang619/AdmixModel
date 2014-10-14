@@ -33,6 +33,7 @@ int Population::getLabel() const {
 }
 
 int Population::getNe() {
+	updateNe();
 	return ne;
 }
 
@@ -44,8 +45,8 @@ void Population::setLabel(int label) {
 	this->label = label;
 }
 
-void Population::setNe(int ne) {
-	this->ne = ne;
+void Population::updateNe() {
+	ne = haplos.size() / 2;
 }
 
 void Population::addHaplo(Chrom & chr) {
@@ -56,7 +57,7 @@ Population Population::evolve(int ne) {
 	vector<Chrom> haplo_next;
 	int size = haplos.size();
 	srand(time(NULL));
-	for (int i = 0; i < ne; i++) {
+	for (int i = 0; i < ne; ++i) {
 		int ind1, ind2;
 		ind1 = rand() % size;
 		ind2 = rand() % size;
@@ -75,7 +76,7 @@ vector<Chrom> Population::sample(int nsamp) {
 	int size = haplos.size();
 	vector<Chrom> samp;
 	srand(time(NULL));
-	for (int i = 0; i < nsamp; i++) {
+	for (int i = 0; i < nsamp; ++i) {
 		samp.push_back(haplos[rand() % size]);
 	}
 	return samp;
@@ -89,19 +90,19 @@ vector<Population> Population::split(float prop) {
 	int size1 = (int) size * prop;
 	vector<int> index, index1;
 	int i;
-	for (i = 0; i < size; i++) {
+	for (i = 0; i < size; ++i) {
 		index.push_back(i);
 	}
-	for (i = 0; i < size1; i++) {
+	for (i = 0; i < size1; ++i) {
 		int tmp = rand() % index.size();
 		index1.push_back(index[tmp]);
 		index.erase(index.begin() + tmp);
 	}
-	for (i = 0; i < size1; i++) {
+	for (i = 0; i < size1; ++i) {
 		haplos1.push_back(haplos[index1[i]]);
 	}
 	int ilen = index.size();
-	for (i = 0; i < ilen; i++) {
+	for (i = 0; i < ilen; ++i) {
 		haplos2.push_back(haplos[index[i]]);
 	}
 	vector<Population> pops;

@@ -12,7 +12,6 @@
 #include <vector>
 #include "Population.h"
 
-
 using namespace std;
 
 void help();
@@ -123,16 +122,16 @@ void HIModel(int gen, double prop, double len, int ne, int nsamp) {
 		admp = admp.evolve(ne);
 	}
 	vector<Chrom> shaplos = admp.sample(nsamp);
-	for(i=0;i<shaplos.size();i++){
+	for (i = 0; i < shaplos.size(); i++) {
 		int j;
 		int nseg = shaplos[i].getNumSegments();
-		cout<<"hap"<<(i+1)<<":";
-		for(j=0;j<nseg;++j){
-			cout<<"-("<<shaplos[i].getSegment(j).getStart();
-			cout<<","<<shaplos[i].getSegment(j).getEnd();
-			cout<<","<<shaplos[i].getSegment(j).getLabel()<<")";
+		cout << "hap" << (i + 1) << ":";
+		for (j = 0; j < nseg; ++j) {
+			cout << "-(" << shaplos[i].getSegment(j).getStart();
+			cout << "," << shaplos[i].getSegment(j).getEnd();
+			cout << "," << shaplos[i].getSegment(j).getLabel() << ")";
 		}
-		cout<<endl;
+		cout << endl;
 	}
 }
 void GAModel(int g, double p, double l, int ns[], int ss[]) {

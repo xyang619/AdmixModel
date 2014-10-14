@@ -19,7 +19,7 @@ char random(char Set[], int len) {
 vector<float> genPos(long size, float length) {
 	vector<float> pos;
 	srand(time(NULL));
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < size; ++i) {
 		pos.push_back(length * (((float) rand()) / (RAND_MAX)));
 	}
 	sort(pos.begin(), pos.end());
@@ -29,7 +29,7 @@ vector<float> genPos(long size, float length) {
 char *genSeq(long size, char Set[], int len) {
 	char *seq;
 	seq = new char[size + 1];
-	for (int i = 0; i < size; i++) {
+	for (int i = 0; i < size; ++i) {
 		seq[i] = random(Set, len);
 	}
 	seq[size] = '\0';
@@ -40,7 +40,7 @@ char *genSeq(long size, char Set[], int len) {
 //	char set[] = { 'A', 'C', 'G', 'T' };
 //	vector<float> p = genPos(size, 1.0);
 //	char *s = genSeq(size, set, 4);
-//	for (int i = 0; i < size; i++)
+//	for (int i = 0; i < size; ++i)
 //		cout << p[i] << " ";
 //	cout << endl;
 //	cout << s << endl;
