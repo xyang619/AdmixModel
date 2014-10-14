@@ -84,3 +84,24 @@ ChromPair::~ChromPair() {
 	// TODO Auto-generated destructor stub
 }
 
+int main() {
+	vector<Segment> segs;
+	segs.push_back(Segment(0, 2, 1));
+	Chrom chr1(segs);
+	vector<Segment> segs2;
+	segs2.push_back(Segment(0, 2, 2));
+	Chrom chr2(segs2);
+	ChromPair cp = ChromPair(chr1, chr2);
+	cp.getChrom(1).print();
+	cp.getChrom(2).print();
+	cp = cp.recombine();
+	cp.getChrom(1).print();
+	cp.getChrom(2).print();
+	cp = cp.recombine();
+	cp.getChrom(1).print();
+	cp.getChrom(2).print();
+	cp = cp.recombine();
+	cp.getChrom(1).print();
+	cp.getChrom(2).print();
+}
+

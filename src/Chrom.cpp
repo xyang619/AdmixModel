@@ -61,8 +61,19 @@ Chrom Chrom::duplicate() {
 	return Chrom(segments);
 }
 
+void Chrom::print() {
+	int i;
+	int nseg = getNumSegments();
+	for (i = 0; i < nseg; ++i) {
+		Segment seg = getSegment(i);
+		cout << "(" << seg.getStart() << "," << seg.getEnd() << ":"
+				<< seg.getLabel() << ")-";
+	}
+	cout << endl;
+}
+
 Chrom::~Chrom() {
-	// TODO Auto-generated destructor stub
+// TODO Auto-generated destructor stub
 }
 
 ////test case

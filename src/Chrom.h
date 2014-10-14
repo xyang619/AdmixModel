@@ -26,6 +26,7 @@ public:
 	void smooth();
 	Segment getSegment(int);
 	Chrom duplicate();
+	void print();
 	virtual ~Chrom();
 };
 
