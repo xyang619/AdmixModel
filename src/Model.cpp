@@ -74,13 +74,54 @@ void Model::setProp(double prop) {
 	this->prop = prop;
 }
 
-void Model::evolve() {
-
-}
 Population Model::getPop() {
 	return pop;
 }
 
+void Model::evolve(double len) {
+	switch (mod) {
+	case 1:
+		HIMod(len);
+		break;
+	case 2:
+		GAMod(len);
+		break;
+	case 3:
+		CGFMod(len);
+		break;
+	}
+}
+
+void Model::HIMod(double len) {
+	int nhaps1 = (int) 2 * ne * prop;
+	int nhaps2 = 2 * ne - nhaps1;
+	vector<Chrom> mixhaplos;
+	int i;
+	for (i = 0; i < nhaps1; ++i) {
+		vector<Segment> segs;
+		segs.push_back(Segment(0, len, 1));
+		mixhaplos.push_back(Chrom(segs));
+	}
+	for (i = 0; i < nhaps2; ++i) {
+		vector<Segment> segs;
+		segs.push_back(Segment(0, len, 2));
+		mixhaplos.push_back(Chrom(segs));
+	}
+	Population admp;
+	admp = Population(3, ne, mixhaplos);
+	for (i = 0; i < gen; ++i) {
+		admp = admp.evolve(ne);
+	}
+	pop = admp;
+}
+
+void Model::GAMod(double len) {
+
+}
+
+void Model::CGFMod(double len) {
+
+}
 Model::~Model() {
 	// TODO Auto-generated destructor stub
 }

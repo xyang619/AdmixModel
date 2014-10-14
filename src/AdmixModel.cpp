@@ -11,29 +11,28 @@
 #include <string>
 #include <vector>
 #include "Population.h"
+#include "Model.h"
 
 using namespace std;
 
 void help();
 void HIModel(int, double, double, int, int);
-void GAModel(int, double, double, int[], int[]);
-void CGFModel(int, double, double, int[], int[]);
 
 int main(int argc, char **argv) {
 	//cout<<argc<<endl;
-	if (argc < 17) {
+	if (argc < 13) {
 		cout << "Need more arguments than provided, please check help again"
 				<< endl;
 		help();
 		exit(0);
 	}
 	int i;
-	int gen = 0;
 	int mod = 1;
-	double prop = 0;
+	int gen = 1;
+	int ne = 1000;
+	double prop = 0.5;
 	double len = 0;
-	int nes[3];
-	int nsample[3];
+	int nsample;
 
 	for (i = 0; i < argc; ++i) {
 		if (string(argv[i]) == "-h") {
@@ -48,13 +47,9 @@ int main(int argc, char **argv) {
 		} else if (string(argv[i]) == "-l") {
 			len = atof(argv[++i]);
 		} else if (string(argv[i]) == "-n") {
-			for (int j = 0; j < 3; ++j) {
-				nes[j] = atoi(argv[++i]);
-			}
+			ne = atoi(argv[++i]);
 		} else if (string(argv[i]) == "-s") {
-			for (int j = 0; j < 3; ++j) {
-				nsample[j] = atoi(argv[++i]);
-			}
+			nsample = atoi(argv[++i]);
 		}
 	}
 	cout << "Model description:" << endl;
@@ -62,28 +57,15 @@ int main(int argc, char **argv) {
 	cout << "proportion: " << prop << endl;
 	cout << "model: " << mod << endl;
 	cout << "length: " << len << endl;
-	cout << "Nes: " << nes[0] << " " << nes[1] << " " << nes[2] << endl;
-	cout << "nsamples: " << nsample[0] << " " << nsample[1] << " " << nsample[2]
-			<< endl;
-	int ne = nes[2];
-	int nsamp = nsample[2];
-	switch (mod) {
-	case 1:
-		HIModel(gen, prop, len, ne, nsamp);
-		break;
-	case 2:
-		GAModel(gen, prop, len, nes, nsample);
-		break;
-	case 3:
-		CGFModel(gen, prop, len, nes, nsample);
-		break;
-	default:
-		cout
-				<< "The model you entered has an error, model must be HI, GA or CGF"
-				<< endl;
+	cout << "Ne: " << ne << endl;
+	cout << "nsample: " << nsample << endl;
+
+	if (mod != 1 && mod != 2 && mod != 3) {
+		cout << "Error, model must be HI(1), GA(2) or CGF(3)\n";
 		help();
 		exit(1);
 	}
+	Model model(mod, gen, ne, prop);
 	return 0;
 }
 
@@ -95,9 +77,7 @@ void help() {
 	cout << "	-p	ancestry proportion of admixed population" << endl;
 	cout << "	-m	admixture model, 1 for HI, 2 for GA and 3 for CGF" << endl;
 	cout << "	-l	length of chromsome to simulate, unit in Morgan" << endl;
-	cout
-			<< "	-n 	effective population size for ancestral and admixed populations"
-			<< endl;
+	cout << "	-n 	effective population size for admixed population" << endl;
 	cout << "	-s	number of haplotypes to be sampled" << endl;
 }
 
@@ -134,10 +114,4 @@ void HIModel(int gen, double prop, double len, int ne, int nsamp) {
 		cout << endl;
 	}
 }
-void GAModel(int g, double p, double l, int ns[], int ss[]) {
 
-}
-
-void CGFModel(int g, double p, double l, int ns[], int ss[]) {
-
-}

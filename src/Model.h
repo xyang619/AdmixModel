@@ -30,7 +30,10 @@ public:
 	void setNe(int);
 	void setGen(int);
 	void setProp(double);
-	void evolve();
+	void evolve(double);
+	void HIMod(double);
+	void GAMod(double);
+	void CGFMod(double);
 	Population getPop();
 	virtual ~Model();
 };
