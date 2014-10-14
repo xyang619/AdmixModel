@@ -1,0 +1,3 @@
+AdmixModel
+==========
+Implemented in C++
