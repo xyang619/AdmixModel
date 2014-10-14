@@ -5,8 +5,8 @@
  *      Author: xiong_yang
  */
 
-#include "Chrom.h"
 #include <iostream>
+#include "Chrom.h"
 
 Chrom::Chrom() {
 	vector<Segment> segments;
@@ -25,12 +25,32 @@ float Chrom::getLength() {
 	return segments.back().getEnd();
 }
 
-int Chrom::getNumSegments() const{
+int Chrom::getNumSegments() const {
 	return segments.size();
 }
 
 void Chrom::addSegment(Segment & segment) {
 	segments.push_back(segment);
+}
+
+void Chrom::smooth() {
+	size_t i;
+	vector<Segment> tmpSegments;
+	Segment seg1 = segments[0];
+	for (i = 1; i < segments.size(); ++i) {
+		Segment seg2 = segments[i];
+		//if adjacent segments have the same label, merge it
+		if (seg1.getLabel() == seg2.getLabel()) {
+			seg1.setEnd(seg2.getEnd());
+		} else {
+			//different label, then add segment to segments
+			//and assign segment 2 to segment 1
+			tmpSegments.push_back(seg1);
+			seg1 = seg2;
+		}
+	}
+	tmpSegments.push_back(seg1);
+	segments = tmpSegments;
 }
 
 Segment Chrom::getSegment(int index) {

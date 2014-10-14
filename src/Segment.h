@@ -14,6 +14,7 @@ private:
 	float end;
 	int label;
 public:
+	Segment();
 	Segment(float, float, int);
 	Segment(const Segment &);
 	float getStart() const;

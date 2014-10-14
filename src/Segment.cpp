@@ -7,26 +7,32 @@
 
 #include "Segment.h"
 
+Segment::Segment() {
+	start = 0;
+	end = 0;
+	label = 1;
+}
+
 Segment::Segment(float start, float end, int label) {
 	this->start = start;
 	this->end = end;
 	this->label = label;
 }
 
-Segment::Segment(const Segment &segment){
-	start=segment.start;
-	end=segment.end;
-	label=segment.label;
+Segment::Segment(const Segment &segment) {
+	start = segment.start;
+	end = segment.end;
+	label = segment.label;
 }
-float Segment::getStart() const{
+float Segment::getStart() const {
 	return start;
 }
 
-float Segment::getEnd() const{
+float Segment::getEnd() const {
 	return end;
 }
 
-int Segment::getLabel() const{
+int Segment::getLabel() const {
 	return label;
 }
 
@@ -47,7 +53,7 @@ void Segment::setLabel(int label) {
 }
 
 Segment Segment::copy() {
-	Segment s(start,end,label);
+	Segment s(start, end, label);
 	return s;
 }
 

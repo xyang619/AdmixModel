@@ -23,6 +23,7 @@ public:
 	float getLength();
 	int getNumSegments() const;
 	void addSegment(Segment &);
+	void smooth();
 	Segment getSegment(int);
 	Chrom duplicate();
 	virtual ~Chrom();

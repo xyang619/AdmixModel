@@ -28,11 +28,11 @@ vector<float> genPos(long size, float length) {
 
 char *genSeq(long size, char Set[], int len) {
 	char *seq;
-	seq = new char[size+1];
+	seq = new char[size + 1];
 	for (int i = 0; i < size; i++) {
 		seq[i] = random(Set, len);
 	}
-	seq[size]='\0';
+	seq[size] = '\0';
 	return seq;
 }
 //int main() {
