@@ -1,16 +1,15 @@
 //============================================================================
 // Name        : AdmixModel.cpp
-// Author      : 
-// Version     :
+// Author      : Young
+// Version     : 1.0.0
 // Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
+// Description : An Admixture Model Simulator
 //============================================================================
 
 #include <iostream>
 #include <cstdlib>
 #include <string>
 #include <vector>
-#include "Population.h"
 #include "Model.h"
 
 using namespace std;
@@ -20,7 +19,8 @@ void HIModel(int, double, double, int, int);
 
 int main(int argc, char **argv) {
 	//cout<<argc<<endl;
-	if (argc < 13) {
+
+	if ((argc < 2) || (argc < 12 && string(argv[1]) != "-h")) {
 		cout << "Need more arguments than provided, please check help again"
 				<< endl;
 		help();
@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 	int ne = 1000;
 	double prop = 0.5;
 	double len = 0;
-	int nsample;
+	int nsample = 10;
 
 	for (i = 0; i < argc; ++i) {
 		if (string(argv[i]) == "-h") {
@@ -66,6 +66,20 @@ int main(int argc, char **argv) {
 		exit(1);
 	}
 	Model model(mod, gen, ne, prop);
+	model.evolve(len);
+	vector<Chrom> sample = model.getPop().sample(nsample);
+	for (i = 0; i < nsample; ++i) {
+		Chrom chr = sample[i];
+		chr.smooth();
+		int nseg = sample[i].getNumSegments();
+		cout << "chrom-" << i << ": ";
+		for (int j = 0; j < nseg; ++j) {
+			Segment seg = chr.getSegment(j);
+			cout << "(" << seg.getStart() << "," << seg.getEnd() << ":"
+					<< seg.getLabel() << ")-";
+		}
+		cout << endl;
+	}
 	return 0;
 }
 
@@ -102,7 +116,7 @@ void HIModel(int gen, double prop, double len, int ne, int nsamp) {
 		admp = admp.evolve(ne);
 	}
 	vector<Chrom> shaplos = admp.sample(nsamp);
-	for (i = 0; i < shaplos.size(); i++) {
+	for (size_t i = 0; i < shaplos.size(); i++) {
 		int j;
 		int nseg = shaplos[i].getNumSegments();
 		cout << "hap" << (i + 1) << ":";

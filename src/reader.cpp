@@ -68,7 +68,7 @@ vector<float> readPos(char *filename) {
 		}
 		getline(in, line);
 		vector<string> tokens = split(line, " ");
-		for (int i = 1; i < tokens.size() - 1; ++i) {
+		for (size_t i = 1; i < tokens.size() - 1; ++i) {
 			pos.push_back((float) atof(tokens[i].c_str()));
 		}
 	} else {
