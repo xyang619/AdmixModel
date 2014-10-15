@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 #include <string>
 #include <vector>
 #include "Model.h"
@@ -33,6 +34,8 @@ int main(int argc, char **argv) {
 	double prop = 0.5;
 	double len = 0;
 	int nsample = 10;
+	long seed = 0;
+	bool givenSeed = 0;
 
 	for (i = 0; i < argc; ++i) {
 		if (string(argv[i]) == "-h") {
@@ -46,10 +49,13 @@ int main(int argc, char **argv) {
 			mod = atoi(argv[++i]);
 		} else if (string(argv[i]) == "-l") {
 			len = atof(argv[++i]);
-		} else if (string(argv[i]) == "-n") {
+		} else if (string(argv[i]) == "-e") {
 			ne = atoi(argv[++i]);
-		} else if (string(argv[i]) == "-s") {
+		} else if (string(argv[i]) == "-n") {
 			nsample = atoi(argv[++i]);
+		} else if (string(argv[i]) == "-s") {
+			seed = atol(argv[++i]);
+			givenSeed = 1;
 		}
 	}
 	cout << "Model description:" << endl;
@@ -59,19 +65,24 @@ int main(int argc, char **argv) {
 	cout << "length: " << len << endl;
 	cout << "Ne: " << ne << endl;
 	cout << "nsample: " << nsample << endl;
+	cout << "seed: " << seed << endl;
 
 	if (mod != 1 && mod != 2 && mod != 3) {
 		cout << "Error, model must be HI(1), GA(2) or CGF(3)\n";
 		help();
 		exit(1);
 	}
+	if (!givenSeed) {
+		srand (time(NULL));} else {
+			srand(seed);
+		}
 	Model model(mod, gen, ne, prop);
 	model.evolve(len);
 	vector<Chrom> sample = model.getPop().sample(nsample);
 	for (i = 0; i < nsample; ++i) {
-		Chrom chr = sample[i];
+		Chrom chr = sample.at(i);
 		chr.smooth();
-		int nseg = sample[i].getNumSegments();
+		int nseg = chr.getNumSegments();
 		cout << "chrom-" << i << ": ";
 		for (int j = 0; j < nseg; ++j) {
 			Segment seg = chr.getSegment(j);
@@ -91,41 +102,8 @@ void help() {
 	cout << "	-p	ancestry proportion of admixed population" << endl;
 	cout << "	-m	admixture model, 1 for HI, 2 for GA and 3 for CGF" << endl;
 	cout << "	-l	length of chromsome to simulate, unit in Morgan" << endl;
-	cout << "	-n 	effective population size for admixed population" << endl;
-	cout << "	-s	number of haplotypes to be sampled" << endl;
-}
-
-void HIModel(int gen, double prop, double len, int ne, int nsamp) {
-	int nhap1 = ne * 2 * prop;
-	int nhap2 = ne * 2 - nhap1;
-	vector<Chrom> mixhaplos;
-	int i;
-	for (i = 0; i < nhap1; ++i) {
-		vector<Segment> segs;
-		segs.push_back(Segment(0, len, 1));
-		mixhaplos.push_back(Chrom(segs));
-	}
-	for (i = 0; i < nhap2; ++i) {
-		vector<Segment> segs;
-		segs.push_back(Segment(0, len, 2));
-		mixhaplos.push_back(Chrom(segs));
-	}
-	Population admp;
-	admp = Population(3, ne, mixhaplos);
-	for (i = 0; i < gen; ++i) {
-		admp = admp.evolve(ne);
-	}
-	vector<Chrom> shaplos = admp.sample(nsamp);
-	for (size_t i = 0; i < shaplos.size(); i++) {
-		int j;
-		int nseg = shaplos[i].getNumSegments();
-		cout << "hap" << (i + 1) << ":";
-		for (j = 0; j < nseg; ++j) {
-			cout << "-(" << shaplos[i].getSegment(j).getStart();
-			cout << "," << shaplos[i].getSegment(j).getEnd();
-			cout << "," << shaplos[i].getSegment(j).getLabel() << ")";
-		}
-		cout << endl;
-	}
+	cout << "	-e 	effective population size for admixed population" << endl;
+	cout << "	-n	number of haplotypes to be sampled" << endl;
+	cout << "	-s	seed of random number generator" << endl;
 }
 

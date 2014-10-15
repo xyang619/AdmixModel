@@ -7,7 +7,7 @@
 
 #include <cmath>
 #include <cstdlib>
-#include <ctime>
+//#include <ctime>
 #include <iostream>
 #include "ChromPair.h"
 
@@ -36,7 +36,7 @@ Chrom ChromPair::getChrom(int index) {
 double ChromPair::waitTime() {
 	double lambda = chrom1.getLength();
 	//srand(time(NULL));
-	double prob = (rand()*1.0) / RAND_MAX;
+	double prob = (rand() * 1.0) / RAND_MAX;
 	double wTime = -log(1 - prob) / lambda;
 	//cout << "prob:" << prob << ";wTime" << wTime << endl;
 	return wTime;
@@ -47,12 +47,12 @@ vector<double> ChromPair::breakPoints() {
 	vector<double> bps;
 	double length = chrom1.getLength();
 	bps.push_back(0.0);
-	while (bps[bps.size() - 1] < length)
-		bps.push_back(bps[bps.size() - 1] + waitTime());
+	while (bps.at(bps.size() - 1) < length)
+		bps.push_back(bps.at(bps.size() - 1) + waitTime());
 	bps.pop_back();
 	bps.push_back(length);
 //	for (size_t i = 0; i < bps.size(); ++i) {
-//		cout << bps[i] << "-";
+//		cout << bps.at(i) << "-";
 //	}
 //	cout << endl;
 	return bps;
@@ -63,31 +63,40 @@ ChromPair ChromPair::recombine() {
 		cout << "Chromosome length differ, please check again" << endl;
 		return ChromPair(chrom1, chrom2);
 	} else {
-		cout<<"Before recombine"<<endl;
-		chrom1.print();
+		//cout << "Before recombine" << endl;
+		//chrom1.print();
 		//chrom2.print();
 		vector<double> bps = breakPoints();
 		vector<Segment> ss1;
 		vector<Segment> ss2;
-		double start = bps[0];
+		double start = bps.front();
 		for (size_t i = 1; i < bps.size(); ++i) {
-			double end = bps[i];
-			Segment s(start, end, 1);
+			double end = bps.at(i);
 			if (i % 2) {
-				ss1.push_back(s);
-				s.setLabel(2);
-				ss2.push_back(s);
+				vector<Segment> tmps = chrom1.extSegment(start, end);
+				for (size_t j = 0; j < tmps.size(); ++j) {
+					ss1.push_back(tmps.at(j));
+				}
+				tmps = chrom2.extSegment(start, end);
+				for (size_t j = 0; j < tmps.size(); ++j) {
+					ss2.push_back(tmps.at(j));
+				}
 			} else {
-				ss2.push_back(s);
-				s.setLabel(2);
-				ss1.push_back(s);
+				vector<Segment> tmps = chrom2.extSegment(start, end);
+				for (size_t j = 0; j < tmps.size(); ++j) {
+					ss1.push_back(tmps.at(j));
+				}
+				tmps = chrom1.extSegment(start, end);
+				for (size_t j = 0; j < tmps.size(); ++j) {
+					ss2.push_back(tmps.at(j));
+				}
 			}
 			start = end;
 		}
 		Chrom chr1(ss1);
 		Chrom chr2(ss2);
-		cout<<"After recombine"<<endl;
-		chr1.print();
+		//cout << "After recombine" << endl;
+		//chr1.print();
 		return ChromPair(ss1, ss2);
 	}
 }
@@ -96,20 +105,21 @@ ChromPair::~ChromPair() {
 	// TODO Auto-generated destructor stub
 }
 
-int main() {
-	srand(time(0));
-	vector<Segment> segs;
-	segs.push_back(Segment(0, 2, 1));
-	Chrom chr1(segs);
-	vector<Segment> segs2;
-	segs2.push_back(Segment(0, 2, 2));
-	Chrom chr2(segs2);
-	ChromPair cp = ChromPair(chr1, chr2);
-	cp = cp.recombine();
-	//cp.getChrom(1).print();
-	//cp.getChrom(2).print();
-	cp = cp.recombine();
-	//cp.getChrom(1).print();
-	//cp.getChrom(2).print();
-}
+//int main() {
+//	srand(time(0));
+//	vector<Segment> segs;
+//	segs.push_back(Segment(0, 2, 1));
+//	Chrom chr1(segs);
+//	vector<Segment> segs2;
+//	segs2.push_back(Segment(0, 2, 2));
+//	Chrom chr2(segs2);
+//	ChromPair cp = ChromPair(chr1, chr2);
+//	cp = cp.recombine();
+//	//cp.getChrom(1).print();
+//	//cp.getChrom(2).print();
+//	cp = cp.recombine();
+//	//cp.getChrom(1).print();
+//	//cp.getChrom(2).print();
+//	cp=cp.recombine();
+//}
 
