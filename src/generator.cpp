@@ -4,21 +4,22 @@
  *  Created on: Sep 25, 2014
  *  Author: xiong_yang
  *  generate a series of position between 0 and length, and generate a sequence of given character sets
+ *  It's bad to use srand many times, it's said srand should only call once in each application
  */
 #include <iostream>
 #include <algorithm>
 #include <cstdlib>
-#include <ctime>
+//#include <ctime>
 #include "generator.h"
 
 char random(char Set[], int len) {
-	srand(time(NULL));
+	//srand(time(NULL));
 	return Set[rand() % len];
 }
 
 vector<float> genPos(long size, float length) {
 	vector<float> pos;
-	srand(time(NULL));
+	//srand(time(NULL));
 	for (int i = 0; i < size; ++i) {
 		pos.push_back(length * (((float) rand()) / (RAND_MAX)));
 	}
@@ -35,7 +36,9 @@ char *genSeq(long size, char Set[], int len) {
 	seq[size] = '\0';
 	return seq;
 }
+
 //int main() {
+//	srand(time(NULL));
 //	long size = 100;
 //	char set[] = { 'A', 'C', 'G', 'T' };
 //	vector<float> p = genPos(size, 1.0);

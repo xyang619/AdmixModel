@@ -8,7 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
-#include <cstdlib>
+//#include <cstdlib>
 #include "reader.h"
 
 using namespace std;
