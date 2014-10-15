@@ -1,4 +1,4 @@
-AdmixModel
+Admixture Model Simulator
 ==========
 Admixture Model Described in Wenfei et al, Implemented in C++
 
