@@ -69,7 +69,7 @@ vector<double> readPos(char *filename) {
 		getline(in, line);
 		vector<string> tokens = split(line, " ");
 		for (size_t i = 1; i < tokens.size() - 1; ++i) {
-			pos.push_back((double) atof(tokens[i].c_str()));
+			pos.push_back((double) atof(tokens.at(i).c_str()));
 		}
 	} else {
 		cout << "Error in reading " << filename << endl;
