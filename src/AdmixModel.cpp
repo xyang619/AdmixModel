@@ -7,6 +7,7 @@
 //============================================================================
 
 #include <iostream>
+#include <iomanip>
 #include <cstdlib>
 #include <ctime>
 #include <string>
@@ -86,7 +87,8 @@ int main(int argc, char **argv) {
 		//cout << "chrom-" << i << ": ";
 		for (int j = 0; j < nseg; ++j) {
 			Segment seg = chr.getSegment(j);
-			cout <<seg.getStart() << "\t" << seg.getEnd() << "\t" << seg.getLabel() << endl;
+			cout << setw(10) << seg.getStart() << "\t" << setw(10)
+					<< seg.getEnd() << "\t" << seg.getLabel() << endl;
 		}
 	}
 	return 0;
