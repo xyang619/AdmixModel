@@ -47,8 +47,9 @@ vector<double> ChromPair::breakPoints() {
 	vector<double> bps;
 	double length = chrom1.getLength();
 	bps.push_back(0.0);
-	while (bps.at(bps.size() - 1) < length)
+	while (bps.at(bps.size() - 1) < length){
 		bps.push_back(bps.at(bps.size() - 1) + waitTime());
+	}
 	bps.pop_back();
 	bps.push_back(length);
 //	for (size_t i = 0; i < bps.size(); ++i) {
@@ -60,7 +61,7 @@ vector<double> ChromPair::breakPoints() {
 
 ChromPair ChromPair::recombine() {
 	if (chrom1.getLength() != chrom2.getLength()) {
-		cout << "Chromosome length differ, please check again" << endl;
+		cerr << "Chromosome length differ, please check again" << endl;
 		return ChromPair(chrom1, chrom2);
 	} else {
 		//cout << "Before recombine" << endl;

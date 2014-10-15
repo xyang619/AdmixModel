@@ -67,7 +67,7 @@ int Chrom::indexOf(double pos) {
 void Chrom::addSegment(Segment & segment) {
 	if (segments.size() > 0) {
 		if (segment.getStart() != segments.back().getEnd()) {
-			cout
+			cerr
 					<< "There is a gap between newly added segment and the last segment already in, segment shifted"
 					<< endl;
 			//shift the segment
@@ -139,10 +139,8 @@ void Chrom::print() {
 	int nseg = getNumSegments();
 	for (i = 0; i < nseg; ++i) {
 		Segment seg = getSegment(i);
-		cout << "(" << seg.getStart() << "," << seg.getEnd() << ":"
-				<< seg.getLabel() << ")-";
+		cout << seg.getStart() << "\t" << seg.getEnd() << "\t" << seg.getLabel() << endl;
 	}
-	cout << endl;
 }
 
 Chrom::~Chrom() {

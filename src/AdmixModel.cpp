@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
 	//cout<<argc<<endl;
 
 	if ((argc < 2) || (argc < 12 && string(argv[1]) != "-h")) {
-		cout << "Need more arguments than provided, please check help again"
+		cerr << "Need more arguments than provided, please check help again"
 				<< endl;
 		help();
 		exit(0);
@@ -58,17 +58,17 @@ int main(int argc, char **argv) {
 			givenSeed = 1;
 		}
 	}
-	cout << "Model description:" << endl;
-	cout << "generation: " << gen << endl;
-	cout << "proportion: " << prop << endl;
-	cout << "model: " << mod << endl;
-	cout << "length: " << len << endl;
-	cout << "Ne: " << ne << endl;
-	cout << "nsample: " << nsample << endl;
-	cout << "seed: " << seed << endl;
+	cerr << "Model description:" << endl;
+	cerr << "generation: " << gen << endl;
+	cerr << "proportion: " << prop << endl;
+	cerr << "model: " << mod << endl;
+	cerr << "length: " << len << endl;
+	cerr << "Ne: " << ne << endl;
+	cerr << "nsample: " << nsample << endl;
+	cerr << "seed: " << seed << endl;
 
 	if (mod != 1 && mod != 2 && mod != 3) {
-		cout << "Error, model must be HI(1), GA(2) or CGF(3)\n";
+		cerr << "Error, model must be HI(1), GA(2) or CGF(3)\n";
 		help();
 		exit(1);
 	}
@@ -83,13 +83,11 @@ int main(int argc, char **argv) {
 		Chrom chr = sample.at(i);
 		chr.smooth();
 		int nseg = chr.getNumSegments();
-		cout << "chrom-" << i << ": ";
+		//cout << "chrom-" << i << ": ";
 		for (int j = 0; j < nseg; ++j) {
 			Segment seg = chr.getSegment(j);
-			cout << "(" << seg.getStart() << "," << seg.getEnd() << ":"
-					<< seg.getLabel() << ")-";
+			cout <<seg.getStart() << "\t" << seg.getEnd() << "\t" << seg.getLabel() << endl;
 		}
-		cout << endl;
 	}
 	return 0;
 }
