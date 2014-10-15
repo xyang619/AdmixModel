@@ -17,11 +17,11 @@ char random(char Set[], int len) {
 	return Set[rand() % len];
 }
 
-vector<float> genPos(long size, float length) {
-	vector<float> pos;
+vector<double> genPos(long size, double length) {
+	vector<double> pos;
 	//srand(time(NULL));
 	for (int i = 0; i < size; ++i) {
-		pos.push_back(length * (((float) rand()) / (RAND_MAX)));
+		pos.push_back(length * ((1.0 * rand()) / RAND_MAX));
 	}
 	sort(pos.begin(), pos.end());
 	return pos;
@@ -41,7 +41,7 @@ char *genSeq(long size, char Set[], int len) {
 //	srand(time(NULL));
 //	long size = 100;
 //	char set[] = { 'A', 'C', 'G', 'T' };
-//	vector<float> p = genPos(size, 1.0);
+//	vector<double> p = genPos(size, 1.0);
 //	char *s = genSeq(size, set, 4);
 //	for (int i = 0; i < size; ++i)
 //		cout << p[i] << " ";

@@ -10,19 +10,19 @@
 
 class Segment {
 private:
-	float start;
-	float end;
+	double start;
+	double end;
 	int label;
 public:
 	Segment();
-	Segment(float, float, int);
+	Segment(double, double, int);
 	Segment(const Segment &);
-	float getStart() const;
-	float getEnd() const;
+	double getStart() const;
+	double getEnd() const;
 	int getLabel() const;
-	float getLength();
-	void setStart(float);
-	void setEnd(float);
+	double getLength();
+	void setStart(double);
+	void setEnd(double);
 	void setLabel(int);
 	Segment copy();
 	virtual ~Segment();

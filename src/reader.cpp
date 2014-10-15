@@ -56,9 +56,9 @@ vector<string> readHaplo(char *filename) {
 	return haplo;
 }
 
-vector<float> readPos(char *filename) {
+vector<double> readPos(char *filename) {
 	ifstream in;
-	vector<float> pos;
+	vector<double> pos;
 	in.open(filename);
 	if (in.is_open()) {
 		string line;
@@ -69,7 +69,7 @@ vector<float> readPos(char *filename) {
 		getline(in, line);
 		vector<string> tokens = split(line, " ");
 		for (size_t i = 1; i < tokens.size() - 1; ++i) {
-			pos.push_back((float) atof(tokens[i].c_str()));
+			pos.push_back((double) atof(tokens[i].c_str()));
 		}
 	} else {
 		cout << "Error in reading " << filename << endl;
@@ -80,7 +80,7 @@ vector<float> readPos(char *filename) {
 
 //int main() {
 //	vector<string> haps = readHaplo("test");
-//	vector<float> pos = readPos("test");
+//	vector<double> pos = readPos("test");
 //	cout << "pos size " << pos.size() << endl;
 //	for (unsigned int i = 0; i < pos.size(); ++i) {
 //		cout << pos[i] << " ";

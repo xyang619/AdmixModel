@@ -11,17 +11,28 @@
 Chrom::Chrom() {
 	vector<Segment> segments;
 	this->segments = segments;
+	vector<double> breaks;
+	this->breaks = breaks;
 }
 
-Chrom::Chrom(const vector<Segment> & segments) :
-		segments(segments) {
+Chrom::Chrom(const vector<Segment> & segments) {
+	this->segments = segments;
+	vector<double> breaks;
+	for (size_t i = 0; i < segments.size(); ++i) {
+		breaks.push_back(segments[i].getEnd());
+	}
+	if (breaks.size() > 0) {
+		breaks.pop_back();
+	}
+	this->breaks = breaks;
 }
 
 Chrom::Chrom(const Chrom & chrom) {
 	segments = chrom.segments;
+	breaks = chrom.breaks;
 }
 
-float Chrom::getLength() const {
+double Chrom::getLength() const {
 	return segments.back().getEnd();
 }
 
@@ -29,7 +40,25 @@ int Chrom::getNumSegments() const {
 	return segments.size();
 }
 
+int Chrom::indexOf(double pos) {
+	//if(breaks.size)
+	return 0;
+}
+
 void Chrom::addSegment(Segment & segment) {
+	if (segments.size() > 0) {
+		if (segment.getStart() != segments.back().getEnd()) {
+			cout
+					<< "There is a gap between newly added segment and the last segment already in"
+					<< endl;
+			//shift the segment
+			double prevEnd = segments.back().getEnd();
+			segment.setEnd(prevEnd + segment.getLength());
+			segment.setStart(prevEnd);
+		}
+		cout << segment.getEnd() << endl;
+		breaks.push_back(segment.getEnd());
+	}
 	segments.push_back(segment);
 }
 
@@ -76,29 +105,28 @@ Chrom::~Chrom() {
 // TODO Auto-generated destructor stub
 }
 
-////test case
-//int main() {
-//	vector<Segment> segs;
-//	segs.push_back(Segment(0.0, 0.2, 1));
-//	segs.push_back(Segment(0.2, 0.8, 1));
-//	segs.push_back(Segment(0.8, 1.0, 2));
-//	segs.push_back(Segment(1.0, 1.25, 2));
-//	segs.push_back(Segment(1.25, 1.5, 1));
-//	Chrom chr(segs);
-//	size_t i;
-//	cout << "before smooth, the num is: " << chr.getNumSegments() << endl;
-//	for (i = 0; i < chr.getNumSegments(); ++i) {
-//		Segment s = chr.getSegment(i);
-//		cout << "Seg " << i << ":" << s.getStart() << "-" << s.getEnd()
-//				<< "; pop " << s.getLabel() << endl;
-//	}
-//	chr.smooth();
-//	cout << "after smooth, the num is: " << chr.getNumSegments() << endl;
-//	for (i = 0; i < chr.getNumSegments(); ++i) {
-//		Segment s = chr.getSegment(i);
-//		cout << "Seg " << i << ":" << s.getStart() << "-" << s.getEnd()
-//				<< "; pop " << s.getLabel() << endl;
-//	}
-//
-//}
+//test case
+int main() {
+	vector<Segment> segs;
+	segs.push_back(Segment(0.0, 0.2, 1));
+	segs.push_back(Segment(0.3, 0.8, 1));
+	segs.push_back(Segment(0.8, 1.0, 2));
+	segs.push_back(Segment(1.0, 1.25, 2));
+	segs.push_back(Segment(1.25, 1.5, 1));
+	Chrom chr(segs);
+	size_t i;
+	cout << "before smooth, the num is: " << chr.getNumSegments() << endl;
+	for (i = 0; i < chr.getNumSegments(); ++i) {
+		Segment s = chr.getSegment(i);
+		cout << "Seg " << i << ":" << s.getStart() << "-" << s.getEnd()
+				<< "; pop " << s.getLabel() << endl;
+	}
+	chr.smooth();
+	cout << "after smooth, the num is: " << chr.getNumSegments() << endl;
+	for (i = 0; i < chr.getNumSegments(); ++i) {
+		Segment s = chr.getSegment(i);
+		cout << "Seg " << i << ":" << s.getStart() << "-" << s.getEnd()
+				<< "; pop " << s.getLabel() << endl;
+	}
+}
 

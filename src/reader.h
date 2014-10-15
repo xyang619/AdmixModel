@@ -15,6 +15,6 @@ using namespace std;
 
 vector<string> split(const string&, const string&, const bool);
 vector<string> readHaplo(char *filename);
-vector<float> readPos(char *filename);
+vector<double> readPos(char *filename);
 
 #endif /* READER_H_ */

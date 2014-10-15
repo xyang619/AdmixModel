@@ -8,12 +8,12 @@
 #include "Segment.h"
 
 Segment::Segment() {
-	start = 0;
-	end = 0;
+	start = 0.0;
+	end = 0.0;
 	label = 1;
 }
 
-Segment::Segment(float start, float end, int label) {
+Segment::Segment(double start, double end, int label) {
 	this->start = start;
 	this->end = end;
 	this->label = label;
@@ -24,11 +24,11 @@ Segment::Segment(const Segment &segment) {
 	end = segment.end;
 	label = segment.label;
 }
-float Segment::getStart() const {
+double Segment::getStart() const {
 	return start;
 }
 
-float Segment::getEnd() const {
+double Segment::getEnd() const {
 	return end;
 }
 
@@ -36,15 +36,15 @@ int Segment::getLabel() const {
 	return label;
 }
 
-float Segment::getLength() {
+double Segment::getLength() {
 	return end - start;
 }
 
-void Segment::setStart(float start) {
+void Segment::setStart(double start) {
 	this->start = start;
 }
 
-void Segment::setEnd(float end) {
+void Segment::setEnd(double end) {
 	this->end = end;
 }
 

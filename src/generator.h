@@ -13,7 +13,7 @@ using namespace std;
 
 void setSeed(long);
 char *genSeq(long, char*, int);
-vector<float> genPos(long, float);
+vector<double> genPos(long, double);
 char random(char[]);
 
 #endif /* GENERATOR_H_ */

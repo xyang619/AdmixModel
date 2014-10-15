@@ -33,18 +33,19 @@ Chrom ChromPair::getChrom(int index) {
 	}
 }
 
-float ChromPair::waitTime() {
-	float lambda = chrom1.getLength();
-	srand(time(NULL));
-	float prob = (float) (rand()) / RAND_MAX;
-	float wTime = -log(1 - prob) / lambda;
-	//cout<<"prob:"<<prob<<";wTime"<<wTime<<endl;
+double ChromPair::waitTime() {
+	double lambda = chrom1.getLength();
+	//srand(time(NULL));
+	double prob = (rand()*1.0) / RAND_MAX;
+	double wTime = -log(1 - prob) / lambda;
+	//cout << "prob:" << prob << ";wTime" << wTime << endl;
 	return wTime;
 }
 
-vector<float> ChromPair::breakPoints() {
-	vector<float> bps;
-	float length = chrom1.getLength();
+vector<double> ChromPair::breakPoints() {
+	//srand(time(NULL));
+	vector<double> bps;
+	double length = chrom1.getLength();
 	bps.push_back(0.0);
 	while (bps[bps.size() - 1] < length)
 		bps.push_back(bps[bps.size() - 1] + waitTime());
@@ -62,12 +63,15 @@ ChromPair ChromPair::recombine() {
 		cout << "Chromosome length differ, please check again" << endl;
 		return ChromPair(chrom1, chrom2);
 	} else {
-		vector<float> bps = breakPoints();
+		cout<<"Before recombine"<<endl;
+		chrom1.print();
+		//chrom2.print();
+		vector<double> bps = breakPoints();
 		vector<Segment> ss1;
 		vector<Segment> ss2;
-		float start = bps[0];
+		double start = bps[0];
 		for (size_t i = 1; i < bps.size(); ++i) {
-			float end = bps[i];
+			double end = bps[i];
 			Segment s(start, end, 1);
 			if (i % 2) {
 				ss1.push_back(s);
@@ -82,6 +86,8 @@ ChromPair ChromPair::recombine() {
 		}
 		Chrom chr1(ss1);
 		Chrom chr2(ss2);
+		cout<<"After recombine"<<endl;
+		chr1.print();
 		return ChromPair(ss1, ss2);
 	}
 }
@@ -91,6 +97,7 @@ ChromPair::~ChromPair() {
 }
 
 int main() {
+	srand(time(0));
 	vector<Segment> segs;
 	segs.push_back(Segment(0, 2, 1));
 	Chrom chr1(segs);
@@ -98,16 +105,11 @@ int main() {
 	segs2.push_back(Segment(0, 2, 2));
 	Chrom chr2(segs2);
 	ChromPair cp = ChromPair(chr1, chr2);
-	cp.getChrom(1).print();
-	cp.getChrom(2).print();
 	cp = cp.recombine();
-	cp.getChrom(1).print();
-	cp.getChrom(2).print();
+	//cp.getChrom(1).print();
+	//cp.getChrom(2).print();
 	cp = cp.recombine();
-	cp.getChrom(1).print();
-	cp.getChrom(2).print();
-	cp = cp.recombine();
-	cp.getChrom(1).print();
-	cp.getChrom(2).print();
+	//cp.getChrom(1).print();
+	//cp.getChrom(2).print();
 }
 
