@@ -49,14 +49,14 @@ void Chrom::addSegment(Segment & segment) {
 	if (segments.size() > 0) {
 		if (segment.getStart() != segments.back().getEnd()) {
 			cout
-					<< "There is a gap between newly added segment and the last segment already in"
+					<< "There is a gap between newly added segment and the last segment already in, segment shifted"
 					<< endl;
 			//shift the segment
 			double prevEnd = segments.back().getEnd();
 			segment.setEnd(prevEnd + segment.getLength());
 			segment.setStart(prevEnd);
 		}
-		cout << segment.getEnd() << endl;
+		//cout << segment.getEnd() << endl;
 		breaks.push_back(segment.getEnd());
 	}
 	segments.push_back(segment);
@@ -86,6 +86,11 @@ Segment Chrom::getSegment(int index) {
 	return segments[index];
 }
 
+vector<Segment> Chrom::extSegment(double start, double end) {
+	vector<Segment> segs;
+	return segs;
+}
+
 Chrom Chrom::duplicate() {
 	return Chrom(segments);
 }
@@ -109,11 +114,13 @@ Chrom::~Chrom() {
 int main() {
 	vector<Segment> segs;
 	segs.push_back(Segment(0.0, 0.2, 1));
-	segs.push_back(Segment(0.3, 0.8, 1));
+	segs.push_back(Segment(0.2, 0.8, 1));
 	segs.push_back(Segment(0.8, 1.0, 2));
 	segs.push_back(Segment(1.0, 1.25, 2));
 	segs.push_back(Segment(1.25, 1.5, 1));
 	Chrom chr(segs);
+	Segment ss(1.6, 1.8, 1);
+	chr.addSegment(ss);
 	size_t i;
 	cout << "before smooth, the num is: " << chr.getNumSegments() << endl;
 	for (i = 0; i < chr.getNumSegments(); ++i) {
