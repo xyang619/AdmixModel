@@ -1,7 +1,9 @@
 AdmixModel
 ==========
 Admixture Model Described in Wenfei et al, Implemented in C++
+
 Test Report
+
 HI Model, Ne 5000, proportion 0.2, length 2.7 Morgan
 g=10, 1.07s
 g=20, 3.22s
