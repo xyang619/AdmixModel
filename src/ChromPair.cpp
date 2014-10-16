@@ -65,8 +65,8 @@ ChromPair ChromPair::recombine() {
 		return ChromPair(chrom1, chrom2);
 	} else {
 		//cout << "Before recombine" << endl;
-		//chrom1.print();
-		//chrom2.print();
+		chrom1.smooth();
+		chrom2.smooth();
 		vector<double> bps = breakPoints();
 		vector<Segment> ss1;
 		vector<Segment> ss2;
