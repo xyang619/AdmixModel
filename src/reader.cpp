@@ -8,7 +8,7 @@
 #include <fstream>
 #include <iostream>
 #include <algorithm>
-//#include <cstdlib>
+#include <cstdlib>
 #include "reader.h"
 
 using namespace std;
@@ -78,16 +78,21 @@ vector<double> readPos(char *filename) {
 	return pos;
 }
 
-//int main() {
-//	vector<string> haps = readHaplo("test");
-//	vector<double> pos = readPos("test");
-//	cout << "pos size " << pos.size() << endl;
-//	for (unsigned int i = 0; i < pos.size(); ++i) {
-//		cout << pos[i] << " ";
-//	}
-//	cout << endl;
-//	for (unsigned int i = 0; i < haps.size(); ++i) {
-//		cout << haps[i] << endl;
-//	}
-//}
+int main(int argc, char ** argv) {
+	if (argc > 1) {
+		char * filename = argv[1];
+		vector<string> haps = readHaplo(filename);
+		vector<double> pos = readPos(filename);
+		//cout << "pos size " << pos.size() << endl;
+		for (size_t i = 0; i < pos.size(); ++i) {
+			cout << pos[i] << " ";
+		}
+		cout << endl;
+		for (size_t i = 0; i < haps.size(); ++i) {
+			cout << haps[i] << endl;
+		}
+	} else {
+		cout << "Usage: reader msoutfile" << endl;
+	}
+}
 

@@ -9,17 +9,15 @@
 #include <iostream>
 #include <algorithm>
 #include <cstdlib>
-//#include <ctime>
+#include <ctime>
 #include "generator.h"
 
 char random(char Set[], int len) {
-	//srand(time(NULL));
 	return Set[rand() % len];
 }
 
 vector<double> genPos(long size, double length) {
 	vector<double> pos;
-	//srand(time(NULL));
 	for (int i = 0; i < size; ++i) {
 		pos.push_back(length * ((1.0 * rand()) / RAND_MAX));
 	}
@@ -37,14 +35,20 @@ char *genSeq(long size, char Set[], int len) {
 	return seq;
 }
 
-//int main() {
-//	srand(time(NULL));
-//	long size = 100;
-//	char set[] = { 'A', 'C', 'G', 'T' };
-//	vector<double> p = genPos(size, 1.0);
-//	char *s = genSeq(size, set, 4);
-//	for (int i = 0; i < size; ++i)
-//		cout << p[i] << " ";
-//	cout << endl;
-//	cout << s << endl;
-//}
+int main(int argc, char ** argv) {
+	long size = 100;
+	if (argc > 1) {
+		size = atol(argv[1]);
+	} else {
+		cerr << "Warning, using default length 100" << endl;
+		cerr << "Usage: generator sequence_length" << endl;
+	}
+	srand (time(NULL));
+	char set[] = { 'A', 'C', 'G', 'T' };
+	vector<double> p = genPos(size, 1.0);
+	char *s = genSeq(size, set, 4);
+	for (int i = 0; i < size; ++i)
+		cout << p[i] << " ";
+	cout << endl;
+	cout << s << endl;
+}
