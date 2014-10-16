@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
 }
 
 void help() {
-	cout << "Admixture Model Simulator" << endl;
+	cout << "Description: Admixture Model Simulator" << endl;
 	cout << "Arguments:" << endl;
 	cout << "	-h	print help message" << endl;
 	cout << "	-g	generation since admixture" << endl;
