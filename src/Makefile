@@ -24,4 +24,4 @@ generator: generator.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS) $(TARGET) reader reader.o generator.o
+	rm -f $(OBJS) $(TARGET) reader reader.o generator generator.o
