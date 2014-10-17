@@ -17,12 +17,11 @@
 using namespace std;
 
 void help();
-void HIModel(int, double, double, int, int);
 
 int main(int argc, char **argv) {
 	//cout<<argc<<endl;
 
-	if ((argc < 2) || (argc < 12 && string(argv[1]) != "-h")) {
+	if ((argc < 2) || (argc < 12 && (string(argv[1]) != "-h" || string(argv[1])!="--help"))) {
 		cerr << "Need more arguments than provided, please check help again"
 				<< endl;
 		help();
@@ -39,22 +38,22 @@ int main(int argc, char **argv) {
 	bool givenSeed = 0;
 
 	for (i = 0; i < argc; ++i) {
-		if (string(argv[i]) == "-h") {
+		if (string(argv[i]) == "-h" || string(argv[i])=="--help") {
 			help();
 			exit(0);
-		} else if (string(argv[i]) == "-g") {
+		} else if (string(argv[i]) == "-g" || string(argv[i])=="--gen") {
 			gen = atoi(argv[++i]);
-		} else if (string(argv[i]) == "-p") {
+		} else if (string(argv[i]) == "-p" || string(argv[i])=="--prop") {
 			prop = atof(argv[++i]);
-		} else if (string(argv[i]) == "-m") {
+		} else if (string(argv[i]) == "-m" || string(argv[i])=="--model") {
 			mod = atoi(argv[++i]);
-		} else if (string(argv[i]) == "-l") {
+		} else if (string(argv[i]) == "-l" || string(argv[i])=="--len") {
 			len = atof(argv[++i]);
-		} else if (string(argv[i]) == "-e") {
+		} else if (string(argv[i]) == "-e" || string(argv[i])=="--ne") {
 			ne = atoi(argv[++i]);
-		} else if (string(argv[i]) == "-n") {
+		} else if (string(argv[i]) == "-n" || string(argv[i])=="--samp") {
 			nsample = atoi(argv[++i]);
-		} else if (string(argv[i]) == "-s") {
+		} else if (string(argv[i]) == "-s" || string(argv[i])=="--seed") {
 			seed = atol(argv[++i]);
 			givenSeed = 1;
 		}
@@ -97,13 +96,13 @@ int main(int argc, char **argv) {
 void help() {
 	cout << "Description: Admixture Model Simulator" << endl;
 	cout << "Arguments:" << endl;
-	cout << "	-h	print help message" << endl;
-	cout << "	-g	generation since admixture" << endl;
-	cout << "	-p	ancestry proportion of admixed population" << endl;
-	cout << "	-m	admixture model, 1 for HI, 2 for GA and 3 for CGF" << endl;
-	cout << "	-l	length of chromsome to simulate, unit in Morgan" << endl;
-	cout << "	-e 	effective population size for admixed population" << endl;
-	cout << "	-n	number of haplotypes to be sampled" << endl;
-	cout << "	-s	seed of random number generator" << endl;
+	cout << "	-h	--help	print help message" << endl;
+	cout << "	-g	--gen	generation since admixture" << endl;
+	cout << "	-p	--prop	ancestry proportion of admixed population" << endl;
+	cout << "	-m	--model	admixture model, 1 for HI, 2 for GA and 3 for CGF" << endl;
+	cout << "	-l	--len	length of chromsome to simulate, unit in Morgan" << endl;
+	cout << "	-e 	--ne	effective population size for admixed population" << endl;
+	cout << "	-n	--samp	number of haplotypes to be sampled" << endl;
+	cout << "	-s	--seed	seed of random number generator" << endl;
 }
 
