@@ -10,18 +10,22 @@
 #include <iomanip>
 #include <cstdlib>
 #include <ctime>
+#include <cstring>
 #include <string>
 #include <vector>
 #include "Model.h"
+#include "generator.h"
 
 using namespace std;
 
 void help();
+int findPos(vector<double>, double);
+char * copySeq(vector<double>, char *, double, double);
 
 int main(int argc, char **argv) {
 	//cout<<argc<<endl;
 
-	if (argc > 1 && (string(argv[1]) != "-h" || string(argv[1]) != "--help")) {
+	if (argc > 1 && (string(argv[1]) == "-h" || string(argv[1]) == "--help")) {
 		help();
 		exit(0);
 	}
@@ -85,6 +89,24 @@ int main(int argc, char **argv) {
 	Model model(mod, gen, ne, prop);
 	model.evolve(len);
 	vector<Chrom> sample = model.getPop().sample(nsample);
+	//SNP number between 1~10 x 10k;
+	long numbSnp = 1 + rand() % 10;
+	numbSnp *= 10000;
+	vector<double> poss = genPos(numbSnp, len);
+	cout << "sites: " << numbSnp << endl;
+	cout << "positions: ";
+	for (i = 0; i < numbSnp; ++i) {
+		cout << poss.at(i) << " ";
+	}
+	cout << endl;
+	char bases[] = { 'A', 'C', 'G', 'T' };
+	//seq1 and seq2 are population 1 and 2 ancestral haplotypes
+	char * seq1 = genSeq(numbSnp, bases, 4);
+	char * seq2 = genSeq(numbSnp, bases, 4);
+	cout << "//ancestral haplotypes" << endl;
+	cout << seq1 << endl;
+	cout << seq2 << endl;
+	cout << "//admixed haplotypes" << endl;
 	for (i = 0; i < nsample; ++i) {
 		Chrom chr = sample.at(i);
 		chr.smooth();
@@ -92,9 +114,16 @@ int main(int argc, char **argv) {
 		//cout << "chrom-" << i << ": ";
 		for (int j = 0; j < nseg; ++j) {
 			Segment seg = chr.getSegment(j);
-			cout << setw(10) << seg.getStart() << "\t" << setw(10)
-					<< seg.getEnd() << "\t" << seg.getLabel() << endl;
+			double start, end;
+			start = seg.getStart();
+			end = seg.getEnd();
+			if (seg.getLabel() == 1) {
+				cout << copySeq(poss, seq1, start, end);
+			} else {
+				cout << copySeq(poss, seq2, start, end);
+			}
 		}
+		cout << endl;
 	}
 	return 0;
 }
@@ -112,5 +141,36 @@ void help() {
 			<< endl;
 	cout << "	-n	--samp	number of haplotypes to be sampled" << endl;
 	cout << "	-s	--seed	seed of random number generator" << endl;
+}
+
+int findPos(vector<double> poss, double pos) {
+	int left = 0;
+	int right = poss.size();
+	if (pos <= poss.front())
+		return left;
+	if (pos > poss.back())
+		return right;
+	int mid = (left + right + 1) / 2;
+	while (left < right) {
+		if (pos > poss.at(mid))
+			left = mid;
+		else
+			right = mid - 1;
+		mid = (left + right + 1) / 2;
+	}
+	return left;
+}
+
+char * copySeq(vector<double> poss, char * seq, double start, double end) {
+	char * ret;
+	int left, right;
+	left = findPos(poss, start);
+	right = findPos(poss, end);
+	//cout << left << "-" << right << endl;
+	ret = new char[right + 1 - left];
+	ret = strncpy(ret, seq + left, right - left);
+	ret[right - left] = '\0';
+	//cout << ret << endl;
+	return ret;
 }
 
