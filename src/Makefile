@@ -1,7 +1,7 @@
 CXX=g++
 CXXFLAGS =	-O3 -g -Wall -fmessage-length=0
 
-SRCS = Segment.cpp Chrom.cpp ChromPair.cpp Population.cpp Model.cpp AdmixModel.cpp generator.cpp
+SRCS = Segment.cpp Chrom.cpp ChromPair.cpp Population.cpp GeneralModel.cpp AdmixModel.cpp generator.cpp
 
 OBJS = $(SRCS:.cpp=.o)
 
