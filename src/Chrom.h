@@ -27,6 +27,7 @@ public:
 	void addSegment(Segment &);
 	vector<Segment> extSegment(double, double);
 	void smooth();
+	void updateBreaks();
 	Segment getSegment(int);
 	Chrom duplicate();
 	void print();

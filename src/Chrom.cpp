@@ -99,6 +99,18 @@ void Chrom::smooth() {
 	}
 	tmpSegments.push_back(seg1);
 	segments = tmpSegments;
+	updateBreaks();
+}
+
+void Chrom::updateBreaks() {
+	vector<double> tmp;
+	for (size_t i = 0; i < segments.size(); ++i) {
+		tmp.push_back(segments.at(i).getEnd());
+	}
+	if (tmp.size() > 0) {
+		tmp.pop_back();
+	}
+	breaks = tmp;
 }
 
 Segment Chrom::getSegment(int index) {
@@ -139,7 +151,8 @@ void Chrom::print() {
 	int nseg = getNumSegments();
 	for (i = 0; i < nseg; ++i) {
 		Segment seg = getSegment(i);
-		cout << seg.getStart() << "\t" << seg.getEnd() << "\t" << seg.getLabel() << endl;
+		cout << seg.getStart() << "\t" << seg.getEnd() << "\t" << seg.getLabel()
+				<< endl;
 	}
 }
 
