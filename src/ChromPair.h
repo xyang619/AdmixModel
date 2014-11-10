@@ -22,7 +22,7 @@ public:
 	ChromPair(const Chrom &, const Chrom &);
 	ChromPair(const ChromPair &);
 	Chrom getChrom(int);
-	double waitTime();
+	double waitTime(double);
 	vector<double> breakPoints();
 	ChromPair recombine();
 	virtual ~ChromPair();

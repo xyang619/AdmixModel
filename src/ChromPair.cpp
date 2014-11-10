@@ -33,8 +33,8 @@ Chrom ChromPair::getChrom(int index) {
 	}
 }
 
-double ChromPair::waitTime() {
-	double lambda = chrom1.getLength();
+double ChromPair::waitTime(double lambda) {
+	//double lambda = chrom1.getLength();
 	//srand(time(NULL));
 	double prob = (rand() * 1.0) / RAND_MAX;
 	double wTime = -log(1 - prob) / lambda;
@@ -48,7 +48,7 @@ vector<double> ChromPair::breakPoints() {
 	double length = chrom1.getLength();
 	bps.push_back(0.0);
 	while (bps.at(bps.size() - 1) < length){
-		bps.push_back(bps.at(bps.size() - 1) + waitTime());
+		bps.push_back(bps.at(bps.size() - 1) + waitTime(1.0));
 	}
 	bps.pop_back();
 	bps.push_back(length);
