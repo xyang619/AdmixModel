@@ -9,23 +9,14 @@
 //#include <ctime>
 #include "Population.h"
 
-Population::Population() {
-	label = 0;
-	ne = 0;
-	vector<Chrom> haplos;
-	this->haplos = haplos;
+Population::Population() :
+		label(1), ne(100) {
+	vector<ChromPair> indivs;
+	this->indivs = indivs;
 }
 
-Population::Population(int label, int ne, const vector<Chrom> &haplos) {
-	this->label = label;
-	this->ne = ne;
-	this->haplos = haplos;
-}
-
-Population::Population(const Population & population) {
-	label = population.label;
-	ne = population.ne;
-	haplos = population.haplos;
+Population::Population(int label, int ne, const vector<ChromPair> &indivs) :
+		label(label), ne(ne), indivs(indivs) {
 }
 
 int Population::getLabel() const {
@@ -37,8 +28,8 @@ int Population::getNe() {
 	return ne;
 }
 
-vector<Chrom> Population::getHaplos() {
-	return haplos;
+vector<ChromPair> Population::getIndivs() const {
+	return indivs;
 }
 
 void Population::setLabel(int label) {
@@ -46,16 +37,16 @@ void Population::setLabel(int label) {
 }
 
 void Population::updateNe() {
-	ne = haplos.size() / 2;
+	ne = indivs.size();
 }
 
-void Population::addHaplo(Chrom & chr) {
-	haplos.push_back(chr);
+void Population::addIndiv(ChromPair & cp) {
+	indivs.push_back(cp);
 }
 
 Population Population::evolve(int ne) {
-	vector<Chrom> haplo_next;
-	int size = haplos.size();
+	vector<ChromPair> indivs_next;
+	int size = indivs.size();
 	//srand(time(NULL));
 	for (int i = 0; i < ne; ++i) {
 		int ind1, ind2;
@@ -64,29 +55,31 @@ Population Population::evolve(int ne) {
 		while (ind1 == ind2) {
 			ind2 = rand() % size;
 		}
-		ChromPair cp(haplos.at(ind1), haplos.at(ind2));
-		cp = cp.recombine();
-		haplo_next.push_back(cp.getChrom(1));
-		haplo_next.push_back(cp.getChrom(2));
+		int chr_index = rand() % 2;
+		Chrom chr1 = indivs.at(ind1).getChrom(chr_index);
+		chr_index = rand() % 2;
+		Chrom chr2 = indivs.at(ind2).getChrom(chr_index);
+		ChromPair cp(chr1, chr2);
+		indivs_next.push_back(cp.recombine());
 	}
-	return Population(label, ne, haplo_next);
+	return Population(label, ne, indivs_next);
 }
 
-vector<Chrom> Population::sample(int nsamp) {
-	int size = haplos.size();
-	vector<Chrom> samp;
+vector<ChromPair> Population::sample(int nsamp) const {
+	int size = indivs.size();
+	vector<ChromPair> samp;
 	//srand(time(NULL));
 	for (int i = 0; i < nsamp; ++i) {
-		samp.push_back(haplos.at(rand() % size));
+		samp.push_back(indivs.at(rand() % size));
 	}
 	return samp;
 }
 
 vector<Population> Population::split(float prop) {
-	vector<Chrom> haplos1;
-	vector<Chrom> haplos2;
+	vector<ChromPair> indivs1;
+	vector<ChromPair> indivs2;
 	//srand(time(NULL));
-	int size = haplos.size();
+	int size = indivs.size();
 	int size1 = (int) size * prop;
 	vector<int> index, index1;
 	int i;
@@ -99,15 +92,15 @@ vector<Population> Population::split(float prop) {
 		index.erase(index.begin() + tmp);
 	}
 	for (i = 0; i < size1; ++i) {
-		haplos1.push_back(haplos.at(index1.at(i)));
+		indivs1.push_back(indivs.at(index1.at(i)));
 	}
 	int ilen = index.size();
 	for (i = 0; i < ilen; ++i) {
-		haplos2.push_back(haplos.at(index.at(i)));
+		indivs2.push_back(indivs.at(index.at(i)));
 	}
 	vector<Population> pops;
-	Population pop1(getLabel(), size1 / 2, haplos1);
-	Population pop2(getLabel() + 1, ne - size1 / 2, haplos2);
+	Population pop1(getLabel(), size1, indivs1);
+	Population pop2(getLabel() + 1, ne - size1, indivs2);
 	pops.push_back(pop1);
 	pops.push_back(pop2);
 	return pops;
@@ -115,7 +108,6 @@ vector<Population> Population::split(float prop) {
 Population::~Population() {
 	// TODO Auto-generated destructor stub
 }
-
 
 //int main(){
 //	srand(time(NULL));

@@ -14,17 +14,15 @@ private:
 	double end;
 	int label;
 public:
-	Segment();
+	//Segment();
 	Segment(double, double, int);
-	Segment(const Segment &);
 	double getStart() const;
 	double getEnd() const;
 	int getLabel() const;
-	double getLength();
+	double getLength() const;
 	void setStart(double);
 	void setEnd(double);
 	void setLabel(int);
-	Segment copy();
 	virtual ~Segment();
 };
 

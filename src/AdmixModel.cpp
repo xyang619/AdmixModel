@@ -88,7 +88,7 @@ int main(int argc, char **argv) {
 	}
 	Model model(mod, gen, ne, prop);
 	model.evolve(len);
-	vector<Chrom> sample = model.getPop().sample(nsample);
+	vector<ChromPair> sample = model.getPop().sample(nsample);
 	//SNP number between 1~10 x 10k;
 	long numbSnp = 1 + rand() % 10;
 	numbSnp *= 10000;
@@ -108,22 +108,25 @@ int main(int argc, char **argv) {
 	cout << seq2 << endl;
 	cout << "//admixed haplotypes" << endl;
 	for (i = 0; i < nsample; ++i) {
-		Chrom chr = sample.at(i);
-		chr.smooth();
-		int nseg = chr.getNumSegments();
-		//cout << "chrom-" << i << ": ";
-		for (int j = 0; j < nseg; ++j) {
-			Segment seg = chr.getSegment(j);
-			double start, end;
-			start = seg.getStart();
-			end = seg.getEnd();
-			if (seg.getLabel() == 1) {
-				cout << copySeq(poss, seq1, start, end);
-			} else {
-				cout << copySeq(poss, seq2, start, end);
+		ChromPair cp = sample.at(i);
+		for (int j = 1; j < 3; ++j) {
+			Chrom chr = cp.getChrom(i);
+			chr.smooth();
+			int nseg = chr.getNumSegments();
+			//cout << "chrom-" << i << ": ";
+			for (int j = 0; j < nseg; ++j) {
+				Segment seg = chr.getSegment(j);
+				double start, end;
+				start = seg.getStart();
+				end = seg.getEnd();
+				if (seg.getLabel() == 1) {
+					cout << copySeq(poss, seq1, start, end);
+				} else {
+					cout << copySeq(poss, seq2, start, end);
+				}
 			}
+			cout << endl;
 		}
-		cout << endl;
 	}
 	return 0;
 }

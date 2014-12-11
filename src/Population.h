@@ -16,19 +16,18 @@ class Population {
 private:
 	int label;
 	int ne;
-	vector<Chrom> haplos;
+	vector<ChromPair> indivs;
 public:
 	Population();
-	Population(int, int, const vector<Chrom> &);
-	Population(const Population &);
+	Population(int, int, const vector<ChromPair> &);
 	int getLabel() const;
 	int getNe();
-	vector<Chrom> getHaplos();
+	vector<ChromPair> getIndivs() const;
 	void setLabel(int);
 	void updateNe();
-	void addHaplo(Chrom &);
+	void addIndiv(ChromPair &);
 	Population evolve(int);
-	vector<Chrom> sample(int);
+	vector<ChromPair> sample(int) const;
 	vector<Population> split(float);
 	virtual ~Population();
 };

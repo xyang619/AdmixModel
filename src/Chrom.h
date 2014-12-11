@@ -18,19 +18,17 @@ private:
 	vector<Segment> segments;
 	vector<double> breaks;
 public:
-	Chrom();
+//	Chrom();
 	Chrom(const vector<Segment> &);
-	Chrom(const Chrom &);
 	double getLength() const;
 	int getNumSegments() const;
-	int indexOf(double);
+	int indexOf(double) const;
 	void addSegment(Segment &);
-	vector<Segment> extSegment(double, double);
+	vector<Segment> extSegment(double, double) const;
 	void smooth();
 	void updateBreaks();
-	Segment getSegment(int);
-	Chrom duplicate();
-	void print();
+	Segment getSegment(int) const;
+	void print() const;
 	virtual ~Chrom();
 };
 
