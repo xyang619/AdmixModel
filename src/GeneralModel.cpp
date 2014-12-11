@@ -21,7 +21,7 @@ GeneralModel::GeneralModel(char * file, int gen, int nanc) {
 bool GeneralModel::isValidNe(int gen) const {
 	for (int i = 0; i < gen; ++i) {
 		if (nes.at(i) <= 0) {
-			cout << "Effective population size must be positive" << endl;
+			cerr << "Error: Effective population size must be positive" << endl;
 			return 0;
 		}
 	}
@@ -33,19 +33,19 @@ bool GeneralModel::isValidProp(int gen, int nanc) const {
 		double tsum = 0;
 		for (int j = 0; j < nanc; ++j) {
 			if (prop.at(i).at(j) < 0 || prop.at(i).at(j) > 1) {
-				cout << "Admixture proportion must be between 0 and 1" << endl;
+				cerr << "Error: Admixture proportion must be between 0 and 1" << endl;
 				return 0;
 			}
 			tsum += prop.at(i).at(j);
 		}
 		if (i == 0 && tsum != 1.0) {
-			cout
-					<< "Then admixture proportion of initial generation must sum to 1"
+			cerr
+					<< "Error: Then admixture proportion of initial generation must sum to 1"
 					<< endl;
 			return 0;
 		}
 		if (tsum > 1) {
-			cout << "The sum of admixture proportion in generation " << i
+			cerr << "Error: The sum of admixture proportion in generation " << i
 					<< " larger than 1" << endl;
 			return 0;
 		}
