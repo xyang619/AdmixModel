@@ -8,7 +8,7 @@
 #ifndef GENERALMODEL_H_
 #define GENERALMODEL_H_
 
-//#include <string>
+//#include <vector>
 #include "Population.h"
 using namespace std;
 
