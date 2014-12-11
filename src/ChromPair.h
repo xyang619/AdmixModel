@@ -18,12 +18,13 @@ private:
 	Chrom chrom1;
 	Chrom chrom2;
 public:
-	ChromPair();
+//	ChromPair();
 	ChromPair(const Chrom &, const Chrom &);
-	ChromPair(const ChromPair &);
-	Chrom getChrom(int);
-	double waitTime(double);
-	vector<double> breakPoints();
+	Chrom getChrom(int) const;
+	//double waitTime();
+	int getPoissonNumb(double) const;
+	void breakPoints(double[], int) const;
+	void sort(double[], int) const;
 	ChromPair recombine();
 	virtual ~ChromPair();
 };

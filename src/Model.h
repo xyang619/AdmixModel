@@ -18,10 +18,9 @@ private:
 	double prop;
 	Population pop;
 public:
-	Model();
+//	Model();
 	Model(int, int, double);
 	Model(int, int, int, double);
-	Model(const Model &);
 	int getMod() const;
 	int getNe() const;
 	int getGen() const;
@@ -34,7 +33,7 @@ public:
 	void HIMod(double);
 	void GAMod(double);
 	void CGFMod(double);
-	Population getPop();
+	Population getPop() const;
 	virtual ~Model();
 };
 

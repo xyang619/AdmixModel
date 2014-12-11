@@ -35,20 +35,20 @@ char *genSeq(long size, char Set[], int len) {
 	return seq;
 }
 
-int main(int argc, char ** argv) {
-	long size = 100;
-	if (argc > 1) {
-		size = atol(argv[1]);
-	} else {
-		cerr << "Warning, using default length 100" << endl;
-		cerr << "Usage: generator sequence_length" << endl;
-	}
-	srand (time(NULL));
-	char set[] = { 'A', 'C', 'G', 'T' };
-	vector<double> p = genPos(size, 1.0);
-	char *s = genSeq(size, set, 4);
-	for (int i = 0; i < size; ++i)
-		cout << p[i] << " ";
-	cout << endl;
-	cout << s << endl;
-}
+//int main(int argc, char ** argv) {
+//	long size = 100;
+//	if (argc > 1) {
+//		size = atol(argv[1]);
+//	} else {
+//		cerr << "Warning, using default length 100" << endl;
+//		cerr << "Usage: generator sequence_length" << endl;
+//	}
+//	srand (time(NULL));
+//	char set[] = { 'A', 'C', 'G', 'T' };
+//	vector<double> p = genPos(size, 1.0);
+//	char *s = genSeq(size, set, 4);
+//	for (int i = 0; i < size; ++i)
+//		cout << p[i] << " ";
+//	cout << endl;
+//	cout << s << endl;
+//}

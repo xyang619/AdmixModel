@@ -11,21 +11,17 @@
 #include <iostream>
 #include "ChromPair.h"
 
-ChromPair::ChromPair() {
-	Chrom chr1, chr2;
-	chrom1 = chr1;
-	chrom2 = chr2;
-}
+//ChromPair::ChromPair() {
+//	Chrom chr1, chr2;
+//	chrom1 = chr1;
+//	chrom2 = chr2;
+//}
+
 ChromPair::ChromPair(const Chrom & chrom1, const Chrom & chrom2) :
 		chrom1(chrom1), chrom2(chrom2) {
 }
 
-ChromPair::ChromPair(const ChromPair & chromPair) {
-	chrom1 = chromPair.chrom1;
-	chrom2 = chromPair.chrom2;
-}
-
-Chrom ChromPair::getChrom(int index) {
+Chrom ChromPair::getChrom(int index) const {
 	if (index == 1) {
 		return chrom1;
 	} else {
@@ -33,30 +29,65 @@ Chrom ChromPair::getChrom(int index) {
 	}
 }
 
-double ChromPair::waitTime(double lambda) {
-	//double lambda = chrom1.getLength();
-	//srand(time(NULL));
-	double prob = (rand() * 1.0) / RAND_MAX;
-	double wTime = -log(1 - prob) / lambda;
-	//cout << "prob:" << prob << ";wTime" << wTime << endl;
-	return wTime;
+//double ChromPair::waitTime() {
+//	double lambda = chrom1.getLength();
+//	//srand(time(NULL));
+//	double prob = (rand() * 1.0) / RAND_MAX;
+//	double wTime = -log(1 - prob) / lambda;
+//	//cout << "prob:" << prob << ";wTime" << wTime << endl;
+//	return wTime;
+//}
+
+int ChromPair::getPoissonNumb(double lambda) const {
+	double length = exp(-lambda);
+	double prob = 1.0;
+	int numb = 0;
+	do {
+		numb++;
+		prob *= rand() * 1.0 / RAND_MAX;
+	} while (prob > length);
+	return numb - 1;
 }
 
-vector<double> ChromPair::breakPoints() {
+void ChromPair::breakPoints(double breaks[], int n) const{
 	//srand(time(NULL));
-	vector<double> bps;
-	double length = chrom1.getLength();
-	bps.push_back(0.0);
-	while (bps.at(bps.size() - 1) < length){
-		bps.push_back(bps.at(bps.size() - 1) + waitTime(1.0));
-	}
-	bps.pop_back();
-	bps.push_back(length);
+	//vector<double> bps;
+	//double length = chrom1.getLength();
+	//bps.push_back(0.0);
+	//while (bps.at(bps.size() - 1) < length) {
+	//	bps.push_back(bps.at(bps.size() - 1) + waitTime());
+	//}
+	//bps.pop_back();
+	//bps.push_back(length);
 //	for (size_t i = 0; i < bps.size(); ++i) {
 //		cout << bps.at(i) << "-";
 //	}
 //	cout << endl;
-	return bps;
+	//return bps;
+	double length = chrom1.getLength();
+	breaks[0] = 0.0;
+	for (int i = 1; i < n - 1; ++i) {
+		breaks[i] = rand() * length / RAND_MAX;
+	}
+	breaks[n - 1] = length;
+	sort(breaks, n);
+}
+
+void ChromPair::sort(double breaks[], int n) const{
+	int iMin;
+	for (int i = 0; i < n - 1; ++i) {
+		iMin = i;
+		for (int j = i + 1; j < n; ++j) {
+			if (breaks[j] < breaks[iMin]) {
+				iMin = j;
+			}
+		}
+		if (iMin != i) {
+			double tmp = breaks[iMin];
+			breaks[i] = breaks[iMin];
+			breaks[iMin] = tmp;
+		}
+	}
 }
 
 ChromPair ChromPair::recombine() {
@@ -67,12 +98,14 @@ ChromPair ChromPair::recombine() {
 		//cout << "Before recombine" << endl;
 		//chrom1.smooth();
 		//chrom2.smooth();
-		vector<double> bps = breakPoints();
+		int numb = getPoissonNumb(chrom1.getLength()) + 2;
+		double bps[numb];
+		breakPoints(bps, numb);
 		vector<Segment> ss1;
 		vector<Segment> ss2;
-		double start = bps.front();
-		for (size_t i = 1; i < bps.size(); ++i) {
-			double end = bps.at(i);
+		double start = bps[0];
+		for (int i = 1; i < numb; ++i) {
+			double end = bps[i];
 			if (i % 2) {
 				vector<Segment> tmps = chrom1.extSegment(start, end);
 				for (size_t j = 0; j < tmps.size(); ++j) {
@@ -116,11 +149,11 @@ ChromPair::~ChromPair() {
 //	Chrom chr2(segs2);
 //	ChromPair cp = ChromPair(chr1, chr2);
 //	cp = cp.recombine();
-//	//cp.getChrom(1).print();
-//	//cp.getChrom(2).print();
+//	cp.getChrom(1).print();
+//	cp.getChrom(2).print();
 //	cp = cp.recombine();
-//	//cp.getChrom(1).print();
-//	//cp.getChrom(2).print();
+//	cp.getChrom(1).print();
+//	cp.getChrom(2).print();
 //	cp=cp.recombine();
 //}
 

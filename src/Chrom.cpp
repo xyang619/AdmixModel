@@ -8,15 +8,14 @@
 #include <iostream>
 #include "Chrom.h"
 
-Chrom::Chrom() {
-	vector<Segment> segments;
-	this->segments = segments;
-	vector<double> breaks;
-	this->breaks = breaks;
-}
+//Chrom::Chrom() {
+//	vector<Segment> segments;
+//	this->segments = segments;
+//	vector<double> breaks;
+//	this->breaks = breaks;
+//}
 
-Chrom::Chrom(const vector<Segment> & segments) {
-	this->segments = segments;
+Chrom::Chrom(const vector<Segment> & segments):segments(segments) {
 	vector<double> breaks;
 	for (size_t i = 0; i < segments.size(); ++i) {
 		breaks.push_back(segments.at(i).getEnd());
@@ -27,11 +26,6 @@ Chrom::Chrom(const vector<Segment> & segments) {
 	this->breaks = breaks;
 }
 
-Chrom::Chrom(const Chrom & chrom) {
-	segments = chrom.segments;
-	breaks = chrom.breaks;
-}
-
 double Chrom::getLength() const {
 	return segments.back().getEnd();
 }
@@ -40,7 +34,7 @@ int Chrom::getNumSegments() const {
 	return segments.size();
 }
 
-int Chrom::indexOf(double pos) {
+int Chrom::indexOf(double pos) const{
 	if (breaks.size() == 0)
 		return 0;
 	else {
@@ -113,11 +107,11 @@ void Chrom::updateBreaks() {
 	breaks = tmp;
 }
 
-Segment Chrom::getSegment(int index) {
+Segment Chrom::getSegment(int index) const{
 	return segments.at(index);
 }
 
-vector<Segment> Chrom::extSegment(double start, double end) {
+vector<Segment> Chrom::extSegment(double start, double end) const{
 	vector<Segment> extSegs;
 	int startIndex = indexOf(start);
 	int endIndex = indexOf(end);
@@ -142,11 +136,7 @@ vector<Segment> Chrom::extSegment(double start, double end) {
 	return extSegs;
 }
 
-Chrom Chrom::duplicate() {
-	return Chrom(segments);
-}
-
-void Chrom::print() {
+void Chrom::print() const{
 	int i;
 	int nseg = getNumSegments();
 	for (i = 0; i < nseg; ++i) {
@@ -160,7 +150,7 @@ Chrom::~Chrom() {
 // TODO Auto-generated destructor stub
 }
 
-////test case
+//test case
 //int main() {
 //	vector<Segment> segs;
 //	segs.push_back(Segment(0.0, 0.2, 1));
