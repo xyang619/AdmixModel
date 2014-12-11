@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
 		exit(0);
 	}
 
-	if (argc < 10) {
+	if (argc < 12) {
 		cerr
 				<< "Need more arguments than provided, use -h/--help to get more help"
 				<< endl;
@@ -159,7 +159,7 @@ void help() {
 	cout << "	-k/--nanc	number of ancestral populations" << endl;
 	cout << "	-l/--len	length of chromosome to be simulated" << endl;
 	cout << "	-f/--file	model parameter description file" << endl;
-	//cout << "	-p/--prefix	prefix of input file" << endl;
+	cout << "	-n/--samp	number of individuals to be sampled" << endl;
 	cout << "	-o/--output	prefix of output file" << endl;
 	cout << "	-s/--seed	seed of random generator" << endl;
 }
