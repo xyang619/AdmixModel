@@ -10,9 +10,9 @@
 
 class Segment {
 private:
+	int label;
 	double start;
 	double end;
-	int label;
 public:
 	//Segment();
 	Segment(double, double, int);

@@ -15,8 +15,9 @@ using namespace std;
 
 class Chrom {
 private:
-	vector<Segment> segments;
 	vector<double> breaks;
+	vector<Segment> segments;
+
 public:
 //	Chrom();
 	Chrom(const vector<Segment> &);
