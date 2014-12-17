@@ -6,6 +6,7 @@
  */
 
 #include <iostream>
+#include <iomanip>
 #include <fstream>
 #include <string>
 #include <sstream>
@@ -94,19 +95,20 @@ int main(int argc, char ** argv) {
 	}
 	fout << "Generation\tllik_1(HI)\tllik_2(HI)\tllik_1(GA)\tllik_2(GA)\tllik_1(CGF)\tllik_2(CGF)" << endl;
 	for (int t = 1; t <= maxT; ++t) {
-		fout << t << "\t";
+		fout << setw(6) << t;
+		fout << fixed << setprecision(6);
 		llk[0][t - 1] = loglik(fhi, segs1, m, t);
-		fout << llk[0][t - 1] << "\t";
+		fout << setw(14) << llk[0][t - 1];
 		llk[1][t - 1] = loglik(fhi, segs2, 1 - m, t);
-		fout << llk[1][t - 1] << "\t";
+		fout << setw(14) << llk[1][t - 1];
 		llk[2][t - 1] = loglik(fga, segs1, m, t);
-		fout << llk[2][t - 1] << "\t";
+		fout << setw(14) << llk[2][t - 1];
 		llk[3][t - 1] = loglik(fga, segs2, 1 - m, t);
-		fout << llk[3][t - 1] << "\t";
+		fout << setw(14) << llk[3][t - 1];
 		llk[4][t - 1] = loglik(fcgf1, segs1, m, t);
-		fout << llk[4][t - 1] << "\t";
+		fout << setw(14) << llk[4][t - 1];
 		llk[5][t - 1] = loglik(fcgf2, segs2, m, t); //proportion here refer to pop1 m !!!
-		fout << llk[5][t - 1] << "\t";
+		fout << setw(14) << llk[5][t - 1];
 		fout << endl;
 	}
 	fout.close();
@@ -120,7 +122,7 @@ int main(int argc, char ** argv) {
 	}
 	//print the max likelihood of each column and corresponding generation
 	for (int i = 0; i < 6; ++i) {
-		cout << "Generation: " << index[i] + 1 << "; Likelihood: " << globalMax[i] << endl;
+		cout << "Generation: " << (index[i] + 1) << "; Likelihood: " << globalMax[i] << endl;
 	}
 
 	//comparison and choose the best model, two steps
@@ -135,14 +137,14 @@ int main(int argc, char ** argv) {
 	delete[] byPop1;
 	if (mod == 1) {
 		int t = index[2];
-		cout << "model is GA, generation is " << t + 1 << ", likelihood is " << llk[2][t] << endl;
+		cout << "model is GA, generation is " << (t + 1) << ", likelihood is " << llk[2][t] << endl;
 	} else {
 		int t1 = index[0];
 		int t2 = index[4];
 		if (llk[1][t1] >= llk[5][t2]) {
-			cout << "model is HI, generation is " << t1 + 1 << ", likelihood is " << llk[1][t1] << endl;
+			cout << "model is HI, generation is " << (t1 + 1) << ", likelihood is " << llk[1][t1] << endl;
 		} else {
-			cout << "model is CGF, generation is " << t2 + 1 << ", likelihood is " << llk[5][t2] << endl;
+			cout << "model is CGF, generation is " << (t2 + 1) << ", likelihood is " << llk[5][t2] << endl;
 		}
 	}
 
