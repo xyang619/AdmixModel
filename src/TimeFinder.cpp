@@ -13,7 +13,8 @@
 #include <vector>
 #include <cmath>
 #include <cstdlib>
-#define VERSION "0.0.2"
+#include "omp.h"
+#define VERSION "0.0.3"
 using namespace std;
 
 //void test();
@@ -84,31 +85,38 @@ int main(int argc, char ** argv) {
 	cout << "Means of Length are: " << mLen1 << "; " << mLen2 << endl;
 	cout << "Variances of Length are: " << var(segs1, mLen1) << "; " << var(segs2, mLen2) << endl;
 
-	//calculate and output the likelihood
-	ofstream fout(outfile.c_str());
-	if (!fout.is_open()) {
-		cerr << "Can't open file " << outfile << endl;
-	}
+	//calculate the likelihood
+
 	double ** llk = new double *[6];
 	for (int i = 0; i < 6; ++i) {
 		llk[i] = new double[maxT];
 	}
-	fout << "Generation\tllik_1(HI)\tllik_2(HI)\tllik_1(GA)\tllik_2(GA)\tllik_1(CGF)\tllik_2(CGF)" << endl;
-	for (int t = 1; t <= maxT; ++t) {
+
+	int t=1;
+	#pragma omp parallel for
+	for (t = 1; t <= maxT; ++t) {
+		llk[0][t - 1] = loglik(fhi, segs1, m, t);
+		llk[1][t - 1] = loglik(fhi, segs2, 1 - m, t);
+		llk[2][t - 1] = loglik(fga, segs1, m, t);
+		llk[3][t - 1] = loglik(fga, segs2, 1 - m, t);
+		llk[4][t - 1] = loglik(fcgf1, segs1, m, t);
+		llk[5][t - 1] = loglik(fcgf2, segs2, m, t); //proportion here refer to pop1 m !!!
+	}
+	//write the likelihood to disk file
+	ofstream fout(outfile.c_str());
+		if (!fout.is_open()) {
+			cerr << "Can't open file " << outfile << endl;
+		}
+		fout << "Generation\tllik_1(HI)\tllik_2(HI)\tllik_1(GA)\tllik_2(GA)\tllik_1(CGF)\tllik_2(CGF)" << endl;
+	for (int t = 0; t < maxT; ++t) {
 		fout << setw(6) << t;
 		fout << fixed << setprecision(6);
-		llk[0][t - 1] = loglik(fhi, segs1, m, t);
-		fout << setw(14) << llk[0][t - 1];
-		llk[1][t - 1] = loglik(fhi, segs2, 1 - m, t);
-		fout << setw(14) << llk[1][t - 1];
-		llk[2][t - 1] = loglik(fga, segs1, m, t);
-		fout << setw(14) << llk[2][t - 1];
-		llk[3][t - 1] = loglik(fga, segs2, 1 - m, t);
-		fout << setw(14) << llk[3][t - 1];
-		llk[4][t - 1] = loglik(fcgf1, segs1, m, t);
-		fout << setw(14) << llk[4][t - 1];
-		llk[5][t - 1] = loglik(fcgf2, segs2, m, t); //proportion here refer to pop1 m !!!
-		fout << setw(14) << llk[5][t - 1];
+		fout << setw(14) << llk[0][t];
+		fout << setw(14) << llk[1][t];
+		fout << setw(14) << llk[2][t];
+		fout << setw(14) << llk[3][t];
+		fout << setw(14) << llk[4][t];
+		fout << setw(14) << llk[5][t];
 		fout << endl;
 	}
 	fout.close();
