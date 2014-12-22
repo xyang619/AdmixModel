@@ -109,7 +109,7 @@ int main(int argc, char ** argv) {
 		}
 		fout << "Generation\tllik_1(HI)\tllik_2(HI)\tllik_1(GA)\tllik_2(GA)\tllik_1(CGF)\tllik_2(CGF)" << endl;
 	for (int t = 0; t < maxT; ++t) {
-		fout << setw(6) << t;
+		fout << setw(6) << t + 1;
 		fout << fixed << setprecision(6);
 		fout << setw(14) << llk[0][t];
 		fout << setw(14) << llk[1][t];
