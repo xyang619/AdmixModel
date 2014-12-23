@@ -36,6 +36,7 @@ int main(int argc, char ** argv) {
 	char *fname;
 	string outfile = "loglik.txt";
 	int maxT = 1000;
+	double cutoff = 0;
 	//dealing with command line arguments
 	for (int i = 1; i < argc; ++i) {
 		string agv(argv[i]);
@@ -44,9 +45,11 @@ int main(int argc, char ** argv) {
 			exit(0);
 		} else if (agv == "-f" || agv == "--file") {
 			fname = argv[++i];
-		} else if (agv == "-t" || agv == "max") {
+		} else if (agv == "-t" || agv == "--max") {
 			maxT = atoi(argv[++i]);
-		} else if (agv == "-o" || agv == "output") {
+		} else if (agv == "-c" || agv == "--cutoff") {
+			cutoff = atof(argv[++i]);
+		} else if (agv == "-o" || agv == "--output") {
 			outfile = argv[++i];
 		}
 	}
@@ -59,6 +62,11 @@ int main(int argc, char ** argv) {
 	//reading the data
 	vector<double> segs1;
 	vector<double> segs2;
+	int size1 = 0;
+	int size2 = 0;
+	double sum1 = 0;
+	double sum2 = 0;
+
 	string line;
 	double start, end;
 	int label;
@@ -67,23 +75,29 @@ int main(int argc, char ** argv) {
 		ss >> start;
 		ss >> end;
 		ss >> label;
+		double len = end - start;
 		if (label == 1) {
-			segs1.push_back(end - start);
+			++size1;
+			sum1 += len;
+			if (len >= cutoff) {
+				segs1.push_back(end - start);
+			}
 		} else {
-			segs2.push_back(end - start);
+			++size2;
+			sum2 += len;
+			if (len >= cutoff) {
+				segs2.push_back(end - start);
+			}
 		}
 	}
 	fin.close();
-
 	//calculate the admixture proportions, mean length and its variance
-	double sum1 = sum(segs1);
-	double sum2 = sum(segs2);
 	double m = sum1 / (sum1 + sum2);
-	double mLen1 = sum1 / segs1.size();
-	double mLen2 = sum2 / segs2.size();
+	double mLen1 = sum1 / size1;
+	double mLen2 = sum2 / size2;
 	cout << "Proportions of admixture are: " << m << "; " << (1 - m) << endl;
 	cout << "Means of Length are: " << mLen1 << "; " << mLen2 << endl;
-	cout << "Variances of Length are: " << var(segs1, mLen1) << "; " << var(segs2, mLen2) << endl;
+	//cout << "Variances of Length are: " << var(segs1, mLen1) << "; " << var(segs2, mLen2) << endl;
 
 	//calculate the likelihood
 
@@ -186,6 +200,7 @@ void help() {
 	cout << "	-h/--help	print help message [optional]" << endl;
 	cout << "	-f/--file	file name for the ancestral segments [required]" << endl;
 	cout << "	-t/--max	maximum generation to search for [optional, default=1000]" << endl;
+	cout << "	-c/--cutoff	cutoff to throw away small segment [optional, default=0]" << endl;
 	cout << "	-o/--output	output file for likelihood [optional, default=loglik.txt]" << endl;
 }
 
