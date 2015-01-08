@@ -8,14 +8,15 @@
 #include <iostream>
 #include "Chrom.h"
 
-//Chrom::Chrom() {
-//	vector<Segment> segments;
-//	this->segments = segments;
-//	vector<double> breaks;
-//	this->breaks = breaks;
-//}
+Chrom::Chrom() {
+	vector<Segment> segments;
+	this->segments = segments;
+	vector<double> breaks;
+	this->breaks = breaks;
+}
 
-Chrom::Chrom(const vector<Segment> & segments):segments(segments) {
+Chrom::Chrom(const vector<Segment> & segments) :
+		segments(segments) {
 	vector<double> breaks;
 	for (size_t i = 0; i < segments.size(); ++i) {
 		breaks.push_back(segments.at(i).getEnd());
@@ -34,7 +35,7 @@ int Chrom::getNumSegments() const {
 	return segments.size();
 }
 
-int Chrom::indexOf(double pos) const{
+int Chrom::indexOf(double pos) const {
 	if (breaks.size() == 0)
 		return 0;
 	else {
@@ -61,9 +62,7 @@ int Chrom::indexOf(double pos) const{
 void Chrom::addSegment(Segment & segment) {
 	if (segments.size() > 0) {
 		if (segment.getStart() != segments.back().getEnd()) {
-			cerr
-					<< "There is a gap between newly added segment and the last segment already in, segment shifted"
-					<< endl;
+			cerr << "There is a gap between newly added segment and the last segment already in, segment shifted" << endl;
 			//shift the segment
 			double prevEnd = segments.back().getEnd();
 			segment.setEnd(prevEnd + segment.getLength());
@@ -107,11 +106,11 @@ void Chrom::updateBreaks() {
 	breaks = tmp;
 }
 
-Segment Chrom::getSegment(int index) const{
+const Segment & Chrom::getSegment(int index) const {
 	return segments.at(index);
 }
 
-vector<Segment> Chrom::extSegment(double start, double end) const{
+vector<Segment> Chrom::extSegment(double start, double end) const {
 	vector<Segment> extSegs;
 	int startIndex = indexOf(start);
 	int endIndex = indexOf(end);
@@ -136,13 +135,12 @@ vector<Segment> Chrom::extSegment(double start, double end) const{
 	return extSegs;
 }
 
-void Chrom::print() const{
+void Chrom::print() const {
 	int i;
 	int nseg = getNumSegments();
 	for (i = 0; i < nseg; ++i) {
 		Segment seg = getSegment(i);
-		cout << seg.getStart() << "\t" << seg.getEnd() << "\t" << seg.getLabel()
-				<< endl;
+		cout << seg.getStart() << "\t" << seg.getEnd() << "\t" << seg.getLabel() << endl;
 	}
 }
 
@@ -163,17 +161,10 @@ Chrom::~Chrom() {
 //	chr.addSegment(ss);
 //	size_t i;
 //	cout << "before smooth, the num is: " << chr.getNumSegments() << endl;
-//	for (i = 0; i < chr.getNumSegments(); ++i) {
-//		Segment s = chr.getSegment(i);
-//		cout << "Seg " << i << ":" << s.getStart() << "-" << s.getEnd()
-//				<< "; pop " << s.getLabel() << endl;
-//	}
+//	chr.print();
 //	chr.smooth();
 //	cout << "after smooth, the num is: " << chr.getNumSegments() << endl;
-//	for (i = 0; i < chr.getNumSegments(); ++i) {
-//		Segment s = chr.getSegment(i);
-//		cout << "Seg " << i << ":" << s.getStart() << "-" << s.getEnd()
-//				<< "; pop " << s.getLabel() << endl;
-//	}
+//	chr.print();
+//	chr.getSegment(1);
 //}
 

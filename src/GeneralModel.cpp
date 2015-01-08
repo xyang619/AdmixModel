@@ -39,14 +39,11 @@ bool GeneralModel::isValidProp(int gen, int nanc) const {
 			tsum += prop.at(i).at(j);
 		}
 		if (i == 0 && tsum != 1.0) {
-			cerr
-					<< "Error: Then admixture proportion of initial generation must sum to 1"
-					<< endl;
+			cerr << "Error: Then admixture proportion of initial generation must sum to 1" << endl;
 			return 0;
 		}
 		if (tsum > 1) {
-			cerr << "Error: The sum of admixture proportion in generation " << i
-					<< " larger than 1" << endl;
+			cerr << "Error: The sum of admixture proportion in generation " << i << " larger than 1" << endl;
 			return 0;
 		}
 	}
@@ -110,7 +107,7 @@ void GeneralModel::evolve(int gen, int nanc, double len) {
 
 }
 
-Population GeneralModel::getPop() const {
+const Population & GeneralModel::getPop() const {
 	return pop;
 }
 

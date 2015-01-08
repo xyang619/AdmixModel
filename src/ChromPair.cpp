@@ -9,13 +9,14 @@
 #include <cstdlib>
 //#include <ctime>
 #include <iostream>
+#include <algorithm>
 #include "ChromPair.h"
 
-//ChromPair::ChromPair() {
-//	Chrom chr1, chr2;
-//	chrom1 = chr1;
-//	chrom2 = chr2;
-//}
+ChromPair::ChromPair() {
+	Chrom chr1, chr2;
+	chrom1 = chr1;
+	chrom2 = chr2;
+}
 
 ChromPair::ChromPair(const Chrom & chrom1, const Chrom & chrom2) :
 		chrom1(chrom1), chrom2(chrom2) {
@@ -49,7 +50,7 @@ int ChromPair::getPoissonNumb(double lambda) const {
 	return numb - 1;
 }
 
-void ChromPair::breakPoints(double breaks[], int n) const{
+void ChromPair::breakPoints(double breaks[], int n) {
 	//srand(time(NULL));
 	//vector<double> bps;
 	//double length = chrom1.getLength();
@@ -70,34 +71,31 @@ void ChromPair::breakPoints(double breaks[], int n) const{
 		breaks[i] = rand() * length / RAND_MAX;
 	}
 	breaks[n - 1] = length;
-	sort(breaks, n);
+	std::sort(breaks,breaks+n);
 }
 
-void ChromPair::sort(double breaks[], int n) const{
-	int iMin;
-	for (int i = 0; i < n - 1; ++i) {
-		iMin = i;
-		for (int j = i + 1; j < n; ++j) {
-			if (breaks[j] < breaks[iMin]) {
-				iMin = j;
-			}
-		}
-		if (iMin != i) {
-			double tmp = breaks[iMin];
-			breaks[i] = breaks[iMin];
-			breaks[iMin] = tmp;
-		}
-	}
-}
+//void ChromPair::sort(double breaks[], int n) {
+//	int iMin;
+//	for (int i = 0; i < n - 1; ++i) {
+//		iMin = i;
+//		for (int j = i + 1; j < n; ++j) {
+//			if (breaks[j] < breaks[iMin]) {
+//				iMin = j;
+//			}
+//		}
+//		if (iMin != i) {
+//			double tmp = breaks[iMin];
+//			breaks[i] = breaks[iMin];
+//			breaks[iMin] = tmp;
+//		}
+//	}
+//}
 
-ChromPair ChromPair::recombine() {
+ChromPair & ChromPair::recombine() {
 	if (chrom1.getLength() != chrom2.getLength()) {
 		cerr << "Chromosome length differ, please check again" << endl;
-		return ChromPair(chrom1, chrom2);
+		return *this;
 	} else {
-		//cout << "Before recombine" << endl;
-		//chrom1.smooth();
-		//chrom2.smooth();
 		int numb = getPoissonNumb(chrom1.getLength()) + 2;
 		double bps[numb];
 		breakPoints(bps, numb);
@@ -129,9 +127,9 @@ ChromPair ChromPair::recombine() {
 		}
 		Chrom chr1(ss1);
 		Chrom chr2(ss2);
-		//cout << "After recombine" << endl;
-		//chr1.print();
-		return ChromPair(ss1, ss2);
+		chrom1 = chr1;
+		chrom2 = chr2;
+		return *this;
 	}
 }
 
@@ -148,12 +146,10 @@ ChromPair::~ChromPair() {
 //	segs2.push_back(Segment(0, 2, 2));
 //	Chrom chr2(segs2);
 //	ChromPair cp = ChromPair(chr1, chr2);
-//	cp = cp.recombine();
-//	cp.getChrom(1).print();
-//	cp.getChrom(2).print();
-//	cp = cp.recombine();
-//	cp.getChrom(1).print();
-//	cp.getChrom(2).print();
-//	cp=cp.recombine();
+//	for (int i = 0; i < 5; ++i) {
+//		cp = cp.recombine();
+//		cp.getChrom(1).print();
+//		//cp.getChrom(2).print();
+//	}
 //}
 

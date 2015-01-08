@@ -7,9 +7,9 @@
 
 #include "Segment.h"
 
-//Segment::Segment() :
-//		start(0), end(0), label(1) {
-//}
+Segment::Segment() :
+		start(0), end(0), label(1) {
+}
 
 Segment::Segment(double start, double end, int label) :
 		start(start), end(end), label(label) {
@@ -27,7 +27,7 @@ int Segment::getLabel() const {
 	return label;
 }
 
-double Segment::getLength() const{
+double Segment::getLength() const {
 	return end - start;
 }
 
@@ -46,4 +46,5 @@ void Segment::setLabel(int label) {
 Segment::~Segment() {
 	// TODO Auto-generated destructor stub
 }
+
 

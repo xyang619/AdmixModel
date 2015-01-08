@@ -15,11 +15,10 @@ using namespace std;
 
 class Chrom {
 private:
-	vector<double> breaks;
 	vector<Segment> segments;
-
+	vector<double> breaks;
 public:
-//	Chrom();
+	Chrom();
 	Chrom(const vector<Segment> &);
 	double getLength() const;
 	int getNumSegments() const;
@@ -28,7 +27,7 @@ public:
 	vector<Segment> extSegment(double, double) const;
 	void smooth();
 	void updateBreaks();
-	Segment getSegment(int) const;
+	const Segment & getSegment(int) const;
 	void print() const;
 	virtual ~Chrom();
 };

@@ -8,7 +8,7 @@
 #ifndef GENERALMODEL_H_
 #define GENERALMODEL_H_
 
-//#include <vector>
+//#include <string>
 #include "Population.h"
 using namespace std;
 
@@ -23,7 +23,7 @@ public:
 	bool isValidProp(int, int) const;
 	void readParam(char *, int, int);
 	void evolve(int, int, double);
-	Population getPop() const;
+	const Population & getPop() const;
 	virtual ~GeneralModel();
 };
 

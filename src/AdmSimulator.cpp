@@ -23,31 +23,26 @@ int findPos(vector<double>, double);
 char * copySeq(vector<double>, char *, double, double);
 
 int main(int argc, char **argv) {
-	//cout<<argc<<endl;
-
 	if (argc > 1 && (string(argv[1]) == "-h" || string(argv[1]) == "--help")) {
 		help();
 		exit(0);
 	}
 
-	if (argc < 12) {
-		cerr
-				<< "Need more arguments than provided, use -h/--help to get more help"
-				<< endl;
+	if (argc < 10) {
+		cerr << "Need more arguments than provided, use -h/--help to get more help" << endl;
 		exit(1);
 	}
 
-	int i;
 	int gen = 1;
 	int nanc = 2;
 	double len = 1;
 	int nsample = 10;
 	long seed = 0;
 	bool givenSeed = 0;
-	char * file;
-	char * output;
+	char * file = NULL;
+	char * output = NULL;
 
-	for (i = 0; i < argc; ++i) {
+	for (int i = 0; i < argc; ++i) {
 		if (string(argv[i]) == "-h" || string(argv[i]) == "--help") {
 			help();
 			exit(0);
@@ -100,14 +95,14 @@ int main(int argc, char **argv) {
 		cerr << "Can't open file " << segfile << " or " << hapfile << endl;
 		abort();
 	}
-	for (i = 0; i < argc; ++i) {
+	for (int i = 0; i < argc; ++i) {
 		hapout << argv[i] << " ";
 	}
 	hapout << endl;
 	hapout << seed << endl << endl << "//" << endl;
 	hapout << "segsites: " << numbSnp << endl;
 	hapout << "positions: ";
-	for (i = 0; i < numbSnp; ++i) {
+	for (int i = 0; i < numbSnp; ++i) {
 		hapout << setprecision(8) << poss.at(i) << " ";
 	}
 	hapout << endl;
@@ -121,7 +116,7 @@ int main(int argc, char **argv) {
 	hapout << seq2 << endl;
 	hapout << seq2 << endl;
 	//cout << "//admixed haplotypes" << endl;
-	for (i = 0; i < nsample; ++i) {
+	for (int i = 0; i < nsample; ++i) {
 		ChromPair cp = sample.at(i);
 		for (int j = 1; j < 3; ++j) {
 			Chrom chr = cp.getChrom(i);
@@ -187,11 +182,9 @@ char * copySeq(vector<double> poss, char * seq, double start, double end) {
 	int left, right;
 	left = findPos(poss, start);
 	right = findPos(poss, end);
-	//cout << left << "-" << right << endl;
 	ret = new char[right + 1 - left];
 	ret = strncpy(ret, seq + left, right - left);
 	ret[right - left] = '\0';
-	//cout << ret << endl;
 	return ret;
 }
 

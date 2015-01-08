@@ -17,15 +17,15 @@ class ChromPair {
 private:
 	Chrom chrom1;
 	Chrom chrom2;
+	int getPoissonNumb(double) const;
+	void breakPoints(double[], int);
 public:
-//	ChromPair();
+	ChromPair();
 	ChromPair(const Chrom &, const Chrom &);
 	Chrom getChrom(int) const;
 	//double waitTime();
-	int getPoissonNumb(double) const;
-	void breakPoints(double[], int) const;
-	void sort(double[], int) const;
-	ChromPair recombine();
+	//void sort(double[], int);
+	ChromPair & recombine();
 	virtual ~ChromPair();
 };
 
