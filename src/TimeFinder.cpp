@@ -125,12 +125,12 @@ int main(int argc, char ** argv) {
 	for (int t = 0; t < maxT; ++t) {
 		fout << setw(6) << t + 1;
 		fout << fixed << setprecision(6);
-		fout << setw(14) << llk[0][t];
-		fout << setw(14) << llk[1][t];
-		fout << setw(14) << llk[2][t];
-		fout << setw(14) << llk[3][t];
-		fout << setw(14) << llk[4][t];
-		fout << setw(14) << llk[5][t];
+		fout << setw(16) << llk[0][t];
+		fout << setw(16) << llk[1][t];
+		fout << setw(16) << llk[2][t];
+		fout << setw(16) << llk[3][t];
+		fout << setw(16) << llk[4][t];
+		fout << setw(16) << llk[5][t];
 		fout << endl;
 	}
 	fout.close();
@@ -143,9 +143,9 @@ int main(int argc, char ** argv) {
 		globalMax[i] = llk[i][index[i]];
 	}
 	//print the max likelihood of each column and corresponding generation
-	for (int i = 0; i < 6; ++i) {
-		cout << "Generation: " << (index[i] + 1) << "; Likelihood: " << globalMax[i] << endl;
-	}
+	//for (int i = 0; i < 6; ++i) {
+		//cout << "Generation: " << (index[i] + 1) << "; Likelihood: " << globalMax[i] << endl;
+	//}
 
 	//comparison and choose the best model, two steps
 	//1) compare the likelihoods of population 1 under three model,
