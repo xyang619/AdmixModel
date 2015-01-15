@@ -121,7 +121,7 @@ int main(int argc, char ** argv) {
 		if (!fout.is_open()) {
 			cerr << "Can't open file " << outfile << endl;
 		}
-		fout << "Generation\tllik_1(HI)\tllik_2(HI)\tllik_1(GA)\tllik_2(GA)\tllik_1(CGF)\tllik_2(CGF)" << endl;
+		fout << "Generation\tHI_Pop1\tHI_Pop2\tGA_Pop1\tGA_Pop2\tCGF_Pop1\tCGF_Pop2" << endl;
 	for (int t = 0; t < maxT; ++t) {
 		fout << setw(6) << t + 1;
 		fout << fixed << setprecision(6);
